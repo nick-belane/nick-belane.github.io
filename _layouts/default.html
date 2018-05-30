@@ -2,6 +2,7 @@
 {% include header.html %}
 <div style="padding-top: 4px; padding-bottom: 4px;">
    <div class="around">
+      <!-- Inserir em include details? -->
       <div class="details">
          <strong> { Titulo de algo } </strong>
          <br>
@@ -9,5 +10,24 @@
          <br>
          <a href="#">Team Shellphish - Cyber Grand Shellphish (2017-01-25)</a>
       </div>
-     {{ content }}
+      <!-- Inserir em include details? -->
+      <div style="border-top: 1px solid black; border-bottom: 2px solid black">
+         <div class="opt" id="article">
+            <strong>{ Titulo }</strong>
+            : { Nome post }
+         </div>
+         <div class="opt-bottom">
+            <strong>{ Autor }</strong>
+            : { Nome autor }
+         </div>
+         <div class="opt-bottom">
+            <strong>{ Data }</strong>
+            : { Data do post }
+         </div>
+         <pre>
+            {{ content }}
+         </pre>
+      </div>
+   </div>
+</div>
 {% include footer.html %}
