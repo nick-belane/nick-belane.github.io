@@ -8,7 +8,7 @@
     <body><center>
         <div align="center" class="texto-2-bold">
             {% for item in site.data.main-menu.itens %}
-                [ <a href="item.url" title="item.url">item.url</a> ]
+                [ <a href="{{ item.url }}" title="{{ item.url }}">{{ item.title }}</a> ]
             {% endfor %}
         </div>
             <img class="img-logo" width="600" src="http://www.phrack.org/images/phrack-logo.jpg" alt="..[]..">
