@@ -32,10 +32,11 @@ a:hover, a:active {
 
 .texto-2 {
     font-family: sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 1px;
     color: #FFFFFF;
     text-decoration: none;
+    text-align: center;
     padding: 2;
 }
 
