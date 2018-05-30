@@ -1,4 +1,8 @@
 body {
-    background-color: #000;
-    color: #FFF;
+    color: #FFFFFF;
+    background-color: #000000;
+    margin: 2px;
+    padding: 0px;
+    font-size: 12px;
+    font-family: sans-serif
 }
