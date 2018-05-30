@@ -55,3 +55,17 @@ a:hover, a:active {
     font-weight: bold;
     letter-spacing: 4px;
 }
+
+.str, .around, .aroundm {
+    border: 1px solid gray;
+    padding: 1px;
+    width: 685px;
+    text-align: center;
+}
+
+.details {
+    padding: 4px;
+    border-bottom: solid gray;
+    background-color: #333;
+    color: #FF9933;
+}
