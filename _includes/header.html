@@ -4,6 +4,7 @@
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+      <title>{{ site.data.config.site-name }}</title>
     </head>
     <body><center>
         <div align="center" class="texto-2-bold">
@@ -12,5 +13,5 @@
             {% endfor %}
         </div>
             <img class="img-logo" width="600" src="https://dummyimage.com/600x400/000/fff" alt="..[]..">
-        <div class="p-title">.:: { site.data.config.site-name } ::.</div>
+        <div class="p-title">.:: {{ site.data.config.site-name }} ::.</div>
         <hr width="600">
