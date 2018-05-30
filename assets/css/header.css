@@ -34,3 +34,8 @@ a:hover, a:active {
     color: #FFFFFF;
     text-decoration: underline;
 }
+
+.img-logo {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
