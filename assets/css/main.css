@@ -69,3 +69,34 @@ a:hover, a:active {
     background-color: #333;
     color: #FF9933;
 }
+
+.opt, .opt-spe {
+    background-color: #FF6600;
+    color: #000;
+    border-bottom: 1px solid black;
+    padding: 4px;
+    padding-left: 6px;
+    text-align: left;
+}
+
+.opt-bottom {
+    background-color: #999;
+    color: #000;
+    border-bottom: 1px solid black;
+    padding: 4px;
+    padding-left: 6px;
+    text-align: left;
+}
+
+pre {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    padding-top: 5px;
+    margin: 0px;
+    text-align: left;
+    font-size: 12px;
+    text-decoration: none;
+    overflow: hidden;
+    -webkit-text-size-adjust: 100%;
+}
