@@ -1,10 +1,7 @@
 <div align="center" class="texto-2-bold">
-  [ <a href="#" title="Menu1">Menu1</a> ]
-  [ <a href="#" title="Menu2">Menu2</a> ]
-  [ <a href="#" title="Menu3">Menu3</a> ]
-  [ <a href="#" title="Menu4">Menu4</a> ]
-  [ <a href="#" title="Menu5">Menu5</a> ]
-  [ <a href="#" title="Menu6">Menu6</a> ]
+            {% for item in site.data.main-menu.itens %}
+                [ <a href="{{ item.url }}" title="{{ item.url }}">{{ item.title }}</a> ]
+            {% endfor %}
 </div>
 <div align="right" class="texto-1">© Copyleft 2018, Who cares</div>
 </center>
