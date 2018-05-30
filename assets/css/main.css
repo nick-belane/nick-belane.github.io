@@ -7,16 +7,6 @@ body {
     font-family: sans-serif;
 }
 
-.texto-2-bold {
-    font-family: sans-serif;
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #FFFFFF;
-    text-decoration: none;
-    padding: 6px;
-    font-weight: bold;
-}
-
 a:link {
     text-decoration: none;
     font-weight: bold;
@@ -38,4 +28,29 @@ a:hover, a:active {
 .img-logo {
     margin-top: 10px;
     margin-bottom: 20px;
+}
+
+.texto-2 {
+    font-family: sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 2;
+}
+
+.texto-2-bold {
+    font-family: sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 6px;
+    font-weight: bold;
+}
+
+.p-title {
+    font-family: sans-serif;
+    font-weight: bold;
+    letter-spacing: 4px;
 }
