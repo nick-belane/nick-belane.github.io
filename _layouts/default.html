@@ -21,7 +21,7 @@
          {% if page.date %}
          <div class="opt-bottom">
             <strong>Data</strong>
-            : {{ page.date | %D }}
+            : {{ page.date | date: "%d/%m/%Y" }}
          </div>
          {% endif %}
          <pre>
