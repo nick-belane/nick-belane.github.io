@@ -1,6 +1,7 @@
 ---
 title: My First Post
 category: CTFs
+author: Nick Belane
 layout: default
 ---
 
