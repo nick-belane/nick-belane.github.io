@@ -143,6 +143,10 @@ p {
     text-align: justify;
 }
 
+hr {
+    max-width: 100%;
+}
+
 /* .footer {
   position: relative;
   right: 0;
