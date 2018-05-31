@@ -21,7 +21,7 @@
          {% if page.date %}
          <div class="opt-bottom">
             <strong>Data</strong>
-            : {{ page.date }}
+            : {{ page.date | date_to_long_string }}
          </div>
          {% endif %}
          <pre>
