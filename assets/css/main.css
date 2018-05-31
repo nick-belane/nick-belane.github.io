@@ -129,6 +129,11 @@ pre {
     -webkit-text-size-adjust: 100%;
 }
 
+pre img {
+    max-width: 100%;
+    height: 20%;
+}
+
 .texto-1 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 10px;
