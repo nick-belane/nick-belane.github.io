@@ -1,5 +1,8 @@
 ---
 title: Início
+page-title: Início
+author: Nick Belane
+page-date: 05/03/2002
 layout: default
 ---
 
