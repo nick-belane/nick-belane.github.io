@@ -53,6 +53,7 @@ menu-link:active {
     margin-top: 10px;
     margin-bottom: 20px;
     max-width: 100%;
+    border-radius: 5px;
 }
 
 .texto-2 {
