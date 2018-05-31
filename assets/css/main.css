@@ -37,7 +37,13 @@ a:hover, a:active {
     color: #FFF;
 }
 
-menu-link:hover, menu-link:active {
+menu-link:hover {
+    font-weight: bold;
+    color: #FFF;
+    text-decoration: underline;
+}
+
+menu-link:active {
     font-weight: bold;
     color: #FFF;
     text-decoration: underline;
