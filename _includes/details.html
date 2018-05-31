@@ -8,4 +8,9 @@
             </a>
             {% endunless %}
         {% endfor %}
+        {% for post in site.posts limit:4 %}
+            <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}">
+                  {{ post.title }}
+            </a>
+        {% endfor %}
       </div>
