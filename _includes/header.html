@@ -12,6 +12,6 @@
                 [ <a href="{{ item.url }}" class="menu-link" title="{{ item.url }}">{{ item.title }}</a> ]
             {% endfor %}
         </div>
-            <img class="img-logo" width="600" src="https://dummyimage.com/600x400/000/fff" alt="..[]..">
+            <img class="img-logo" width="600" src="{{ site.baseurl | absolute_url}}/assets/img/{{ site.data.config.img-logo }}" alt="..[]..">
         <div class="p-title">.:: {{ site.data.config.site-name }} ::.</div>
         <hr width="600">
