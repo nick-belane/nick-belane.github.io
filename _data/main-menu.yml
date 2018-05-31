@@ -2,7 +2,7 @@ menu_title: Main Menu
 itens:
 
 - title: Inicio
-  url: index.html
+  url: /index
 
 - title: Categorias
   url: #
