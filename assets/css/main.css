@@ -10,18 +10,36 @@ body {
 a:link {
     text-decoration: none;
     font-weight: bold;
-    color: #ffffff;
+    color: #000;
 }
 
 a:visited {
     text-decoration: none;
     font-weight: bold;
-    color: #FFFFFF;
+    color: #000;
 }
 
 a:hover, a:active {
     font-weight: bold;
-    color: #FFFFFF;
+    color: #000;
+    text-decoration: underline;
+}
+
+.menu-link:link {
+    text-decoration: none;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.menu-link:visited {
+    text-decoration: none;
+    font-weight: bold;
+    color: #FFF;
+}
+
+menu-link:hover, menu-link:active {
+    font-weight: bold;
+    color: #FFF;
     text-decoration: underline;
 }
 
