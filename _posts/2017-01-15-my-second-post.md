@@ -1,6 +1,6 @@
 ---
 title: My Second Post
-category: Hacking?
+category: Hacking
 layout: default
 ---
 
