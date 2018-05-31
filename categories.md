@@ -1,4 +1,12 @@
 ---
-layout: category
+layout: default
 title: Posts por categoria
 ---
+<!-- All posts of some category -->
+<ul class="my-categories">
+{% for post in site.categories[page.category] %}
+    <li><a href="{{ post.url | absolute_url }}">{{ post.title}}</a>
+    <span class="published-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+    </li>
+{% endfor %}
+</ul>
