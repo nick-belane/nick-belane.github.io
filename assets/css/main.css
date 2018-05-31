@@ -147,6 +147,10 @@ hr {
     max-width: 100%;
 }
 
+.highlight {
+    white-space: preline;
+}
+
 /* .footer {
   position: relative;
   right: 0;
