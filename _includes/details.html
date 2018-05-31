@@ -8,9 +8,16 @@
             </a>
             {% endunless %}
         {% endfor %}
+        {% for post in site.posts limit:1 %}
+            <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}" class="menu-link">
+                  <strong>{{ post.title }}</strong>
+            </a>
+            <br>            
+        {% endfor %}
         {% for post in site.posts offset:1 limit:4 %}
             <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}" class="menu-link">
                   {{ post.title }}
             </a>
+            <br>
         {% endfor %}
       </div>
