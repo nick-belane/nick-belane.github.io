@@ -138,6 +138,11 @@ pre {
     border-top: 1px solid gray;
 }
 
+p {
+    margin-right: 70px;
+    text-align: justify;
+}
+
 /* .footer {
   position: relative;
   right: 0;
