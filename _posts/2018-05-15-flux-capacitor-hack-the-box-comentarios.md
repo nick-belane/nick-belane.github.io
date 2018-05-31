@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 title: Flux Capacitor [Hack The Box] Comentários
 date: 2018-05-15 11:52
 author: Nick Belane
