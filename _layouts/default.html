@@ -5,16 +5,16 @@
       {% include details.html %}
       <div style="border-top: 1px solid black; border-bottom: 2px solid black">
          <div class="opt" id="article">
-            <strong>{ Titulo }</strong>
-            : { Nome post }
+            <strong>Título</strong>
+            : {{ page.page-title }}
          </div>
          <div class="opt-bottom">
-            <strong>{ Autor }</strong>
-            : { Nome autor }
+            <strong>Autor</strong>
+            : {{ page.author }}
          </div>
          <div class="opt-bottom">
-            <strong>{ Data }</strong>
-            : { Data do post }
+            <strong>Data</strong>
+            : { page.date }
          </div>
          <pre>
             {{ content }}
