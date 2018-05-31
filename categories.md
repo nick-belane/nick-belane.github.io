@@ -3,7 +3,7 @@ layout: default
 permalink: categories
 title: Posts por categoria
 ---
-<ul>
+<!-- <ul>
 {% assign categories_list = site.categories %}
   {% if categories_list.first[0] == null %}
     {% for category in categories_list %}
@@ -15,7 +15,7 @@ title: Posts por categoria
     {% endfor %}
   {% endif %}
 {% assign categories_list = nil %}
-</ul>
+</ul> -->
 
 {% for category in site.categories %}
   <h3 id="{{ category[0] }}">{{ category[0] | capitalize }}</h3>
