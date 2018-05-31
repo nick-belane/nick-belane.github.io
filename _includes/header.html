@@ -9,7 +9,7 @@
     <body><center>
         <div align="center" class="texto-2-bold">
             {% for item in site.data.main-menu.itens %}
-                [ <a href="{{ item.url }}" title="{{ item.url }}">{{ item.title }}</a> ]
+                [ <a href="{{ item.url }}" class="menu-link" title="{{ item.url }}">{{ item.title }}</a> ]
             {% endfor %}
         </div>
             <img class="img-logo" width="600" src="https://dummyimage.com/600x400/000/fff" alt="..[]..">
