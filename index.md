@@ -3,6 +3,7 @@ title: Início
 page-title: Início
 author: Nick Belane
 date: 05/03/2002
+permalink: index
 layout: default
 ---
 
