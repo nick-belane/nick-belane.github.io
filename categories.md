@@ -1,5 +1,6 @@
 ---
 layout: default
+permalink: categories
 title: Posts por categoria
 ---
 <!-- All posts of some category -->
