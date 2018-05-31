@@ -1,5 +1,5 @@
       <div class="details">
-         <strong> {{ page.category }} </strong>
+         <strong> Posts Recentes <!-- page.category --> </strong>
          <br>
          {% for post in site.categories[pageCategory] limit:3 %}
             {% unless post.title == page.title %}
@@ -9,7 +9,7 @@
             {% endunless %}
         {% endfor %}
         {% for post in site.posts limit:4 %}
-            <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}">
+            <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}" class="menu-link">
                   {{ post.title }}
             </a>
         {% endfor %}
