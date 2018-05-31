@@ -76,8 +76,7 @@ PORT STATE SERVICE VERSION
 
 <p style="text-align:justify;">Resolvi usar o curl para tentar descobrir o conteúdo da resposta que o DirBuster recebia e tive um pouco de sorte ao ter um palpite correto:</p>
 
-[code]
-
+```
 brenno@budweiser ~&gt; curl -v http://10.10.10.69/sync
 * Trying 10.10.10.69...
 * Connected to 10.10.10.69 (10.10.10.69) port 80 (#0)
@@ -95,7 +94,8 @@ brenno@budweiser ~&gt; curl -v http://10.10.10.69/sync
 &lt;
 20180513T04:35:40
 
-* Connection #0 to host 10.10.10.69 left intact[/code]
+* Connection #0 to host 10.10.10.69 left intact
+```
 
 <p style="text-align:justify;">Então descobri que com o curl era possível acessar /sync e com o parâmetro -v pude ver a requisição feita e a recebida. O que chamou atenção foi o Server: esse tal de SuperWAF.</p>
 
@@ -105,7 +105,8 @@ Mas por qual razão?
 
 A coisa mais óbvia que pensei foi o User-Agent. Para comprovar minha tese, foi só usar o próprio curl com o parametro -A e setar o User-Agent do Firefox:
 
-[code]brenno@budweiser ~&gt; curl -A "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0" -v http://10.10.10.69/sync
+```
+brenno@budweiser ~&gt; curl -A "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0" -v http://10.10.10.69/sync
 * Trying 10.10.10.69...
 * Connected to 10.10.10.69 (10.10.10.69) port 80 (#0)
 &gt; GET /sync HTTP/1.1
@@ -126,12 +127,12 @@ A coisa mais óbvia que pensei foi o User-Agent. Para comprovar minha tese, foi 
 <hr />
 
 <pre>openresty/1.13.6.1
-
-[/code]
+```
 
 E agora com um user-agent qualquer:
 
-[code]brenno@budweiser ~&gt; curl -A "ai dento" -v http://10.10.10.69/sync
+```
+brenno@budweiser ~&gt; curl -A "ai dento" -v http://10.10.10.69/sync
 * Trying 10.10.10.69...
 * Connected to 10.10.10.69 (10.10.10.69) port 80 (#0)
 &gt; GET /sync HTTP/1.1
@@ -146,7 +147,8 @@ E agora com um user-agent qualquer:
 &lt; Connection: keep-alive
 &lt; Server: SuperWAF
 &lt;
-20180513T04:56:18[/code]
+20180513T04:56:18
+```
 
 <p style="text-align:justify;">Então o WAF não gostava de navegadores.</p>
 
@@ -162,7 +164,7 @@ E agora com um user-agent qualquer:
 
 <p style="text-align:justify;">O funcionamento básico é simples, tipo, com o comando:</p>
 
-[code]wfuzz -w wordlist/general/common.txt --hc 404 http://testphp.vulnweb.com/parametro=FUZZ[/code]
+```wfuzz -w wordlist/general/common.txt --hc 404 http://testphp.vulnweb.com/parametro=FUZZ```
 
 <p style="text-align:justify;">O wfuzz pega todos os termos de common.txt, substitui a palavra "FUZZ" da URL, faz a requisição e, com --hc 404 filtra as respostas para apenas as que não forem um 404.</p>
 
@@ -178,7 +180,7 @@ E agora com um user-agent qualquer:
 
 <p style="text-align:justify;">Para obter root foi necessário observar a saída do comando sudo -l e perceber que nobody podia rodar /home/themiddle/.monit como root. Esse é o tipo de coisa que quase nunca está por acaso em uma máquina do HTB. Dentro do arquivo .monit podia se ver o seguinte conteúdo:</p>
 
-[code language="sh"]
+```bash
 
 #!/bin/bash
 
@@ -188,7 +190,7 @@ CMD=$(echo -n ${2} | base64 -d)
 bash -c "$CMD"
 fi
 
-[/code]
+```
 
 <p style="text-align:justify;">É um shellscript que tenta executar um comando. Para isso, espera que o argumento passado seja um base64. Pode-se ver na terceira linha o script tentando traduzi-lo e armazena-lo em $CMD para na próxima linha executa-lo.</p>
 
