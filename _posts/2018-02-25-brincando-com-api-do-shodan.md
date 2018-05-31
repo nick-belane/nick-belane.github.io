@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 title: Brincando com API do Shodan
 date: 2018-02-25 11:45
 author: brennords
