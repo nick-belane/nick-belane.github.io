@@ -28,17 +28,15 @@ Foi divertido e rendeu um bom aprendizado.
 
 Joguei no <a href="https://github.com/brerodrigues/shodan-search" target="_blank" rel="noopener">github</a> porque é chique e faz parecer mais importante do que realmente é. E ah, claro, documentei e fiz o código todo no english porque fica bonito para as empresas.
 
-https://gist.github.com/brerodrigues/2e014019ce835f913ee5500021ae04d6
+<script src="https://gist.github.com/brerodrigues/2e014019ce835f913ee5500021ae04d6.js"></script>
 
 Para usar a classe ShodanSearch, é necessário ter uma API KEY. Se consegue facilmente após se criar uma conta no Shodan e acessar a <a href="https://account.shodan.io/" target="_blank" rel="noopener">página com propriedades de sua conta</a>. Aí é só criar um objeto e começar a usar.
 
 ```
-
 import shodansearch
 
 shodan_api = 'aTPPqKASuQKJi34A291P0123I'
 shodan = shodansearch.ShodanSearch(shodan_api)
-
 ```
 
 Criei dois métodos: '<strong>search</strong>' e '<strong>filter</strong>'.
@@ -55,13 +53,13 @@ Os parâmetros do método 'filter' são: '<strong>filter by</strong>', que pode 
 
 Abaixo segue uma pequena implementação de minha classe:
 
-https://gist.github.com/anonymous/8776c55f1ff210717e3fba1ad80c1a1d
+<script src="https://gist.github.com/anonymous/8776c55f1ff210717e3fba1ad80c1a1d.js"></script>
 
 O código acima vai procurar pelo termo "NET" e depois filtrar os usem o protocolo FTP. Logo depois, ele printa o banner do servidor encontrado e o endereço IP do mesmo.
 
 E rodando o script acima, o resultado é esse:
 
-https://gist.github.com/anonymous/40e8e2c8a191980acd2bc357bc046b3c
+<script src="https://gist.github.com/anonymous/40e8e2c8a191980acd2bc357bc046b3c.js"></script>
 
 Obviamente censurei os endereços dos servidores FTP porque estou velho demais para ser processado por uma merda dessas. Nunca se sabe.
 
