@@ -178,6 +178,10 @@ hr {
     border-bottom: none;
 }
 
+.gist .gist-data {
+    border-bottom: none;
+}
+
 /* .footer {
   position: relative;
   right: 0;
