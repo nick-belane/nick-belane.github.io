@@ -1,7 +1,7 @@
       <div class="details">
          <strong> Posts Recentes <!-- page.category --> </strong>
          <br>
-        {% for post in site.posts offset:0 limit:4 %}
+        {% for post in site.posts offset:0 limit:2 %}
             <a href="{{ post.url }}" class="menu-link">
                   {{ post.title }}
             </a>
