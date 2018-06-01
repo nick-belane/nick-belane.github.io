@@ -4,8 +4,9 @@ title: Jogando Murdered: Soul Suspect com gamepad
 date: 2014-06-09 14:51
 author: brennords
 comments: true
-categories: [Emulador Gamepad, Hacking, Murdered: Soul Suspect com Gamepad, Murdered: Soul Suspect Controle, Problema Murderd: Soul Suspect, Tutorial Murdered: Soul Suspect, x360ce Murdered: Soul Suspect]
+categories: [Hacking,]
 ---
+
 Essa postagem vai para meus manos pobres que, assim como eu, não puderam pagar <a href="http://www.walmart.com.br/produto/Games/Acessorios-Xbox-360/Microsoft/252729-Controle-sem-Fio-XBox-NSF-00023-Preto-Microsoft" target="_blank">189 reais em um controle original no estilo do xb0x 360 da querida Microsoft.</a>
 
 Alguns jogos tem o chato problema (ou implicância) com controles USB "não originais" e comprados em uma <a href="http://www.kabum.com.br/cgi-local/site/produtos/descricao.cgi?codigo=37652&amp;origem=52&amp;utm_source=GOOGLE-SHOPPING&amp;utm_medium=COMPARADOR&amp;gclid=CNa--7uM7b4CFavm7AodrSIAFg" target="_blank">lojinha qualquer por 20 reais</a>. <a href="http://murdered.com/" target="_blank"><strong>Murdered: Soul Suspect</strong></a> é um deles. Mesmo com o controle conectado e funcionando, o jogo o ignora. Preconceito com as origens humildes do mesmo, eu suponho.
