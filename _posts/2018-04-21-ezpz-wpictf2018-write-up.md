@@ -4,7 +4,7 @@ title: EZPZ [WPICTF2018] - Write-up
 date: 2018-04-21 16:58
 author: brennords
 comments: true
-categories: [ctf, CTFs, exploit, Hacking?, Reverse/Xpl/Bin, xpl]
+categories: [ctf, CTFs, exploit, Hacking, Reverse/Xpl/Bin, xpl]
 ---
 <p style="text-align:justify;">O <a href="https://wpictf.xyz/" target="_blank" rel="noopener">WPICTF</a> rolou no final de semana passado, do dia 13/04 ao dia 15/04. Não tive tempo suficiente para tentar resolver todos os challs, mas, nos poucos minutos que passei, consegui solucionar o mistério de dois binários. Um deles foi o <strong>ezpz</strong>.</p>
 
