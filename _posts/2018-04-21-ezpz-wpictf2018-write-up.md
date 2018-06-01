@@ -78,7 +78,7 @@ Era óbvio o que tinha que se fazer: conectar ao servidor que ezpz rodava, pegar
 
 Na correria, peguei o código de um exploit antigo e adaptei para o ezpz. Não é bonito mas funciona. Fica óbvio que ainda preciso aprender a usar a <a href="https://docs.pwntools.com/en/stable/" target="_blank" rel="noopener">pwntools</a> e, após o meu exploit, postarei outro (que não me pertence) com um código bem menor graças as facilidades da pwntools.
 
-https://gist.github.com/brerodrigues/5a46cddb56a087c40e8176afc9902c9b
+<script src="https://gist.github.com/brerodrigues/5a46cddb56a087c40e8176afc9902c9b.js"></script>
 
 E aqui uma versão bem mais bonita: <a href="https://github.com/soolidsnake/Write-ups/blob/master/WPICTF/ezpz/exploit.py" target="_blank" rel="noopener">https://github.com/soolidsnake/Write-ups/blob/master/WPICTF/ezpz/exploit.py</a>
 
