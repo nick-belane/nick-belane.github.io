@@ -4,7 +4,7 @@ title: Descobrindo as senhas dos amigos
 date: 2018-04-14 15:45
 author: brennords
 comments: true
-categories: [Hacking?, Projetos, python]
+categories: [Hacking, Projetos, python]
 ---
 <p style="text-align:justify;">Esta ideia não é original e o link para o conteudo que me deu essa ideia já se perdeu no limbo que é meu histórico de navegação.</p>
 
