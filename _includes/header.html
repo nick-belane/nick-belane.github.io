@@ -8,10 +8,9 @@
     </head>
     <body><center>
         <div align="center" class="texto-2-bold">
-            {% assign sortedCategories = page.categories | sort %}
-                {% for category in sortedCategories %}
-                    [ <a href="/category/{{ category }}" class="menu-link" title="{{ category }}">{{ category }}</a> ]
-                {% endfor %}
+            {% for item in site.data.main-menu.itens %}
+                [ <a href="{{ item.url }}" class="menu-link" title="{{ item.url }}">{{ item.title }}</a> ]
+            {% endfor %}
         </div>
             <img class="img-logo" width="600" src="{{ site.baseurl | absolute_url}}/assets/img/{{ site.data.config.img-logo }}" alt="..[]..">
         <div class="p-title">.:: {{ site.data.config.site-name }} ::.</div>
