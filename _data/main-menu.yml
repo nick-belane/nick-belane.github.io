@@ -3,9 +3,15 @@ itens:
 
 - title: Inicio
   url: /index
+  
+- title: Hacking
+  url: /category/hacking
 
-- title: Categorias
-  url: /categories
+- title: CTFs
+  url: /category/CTFs
+  
+- title: Rant
+  url: /category/rant
 
 - title: Contato
   url: #
