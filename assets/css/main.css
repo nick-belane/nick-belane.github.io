@@ -160,6 +160,14 @@ hr {
     border: none;
 }
 
+.gist .gist-file {
+    border-bottom: none;
+}
+
+.gist .gist-meta {
+    display: none;
+}
+
 /* .footer {
   position: relative;
   right: 0;
