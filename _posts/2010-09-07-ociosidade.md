@@ -4,8 +4,9 @@ title: Ociosidade = Coding And Cracking
 date: 2010-09-07 02:45
 author: brennords
 comments: true
-categories: [Assembly, Crackeando, Cracker, Cracking, Debugger, Funções Strings, Hacking, OLLYDBG, Patch Ollydbg, Patching]
+categories: [Hacking]
 ---
+
 Here we go again ...
 
 Depois de um longo periodo sem postar nada, resolvi postar algo, não muito útil pra variarmos um pouco, mas não importa.
