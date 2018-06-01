@@ -156,6 +156,10 @@ hr {
     white-space: pre-line;
 }
 
+.gist-file {
+    border: none;
+}
+
 /* .footer {
   position: relative;
   right: 0;
