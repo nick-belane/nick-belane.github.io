@@ -162,6 +162,7 @@ hr {
 
 .gist .gist-file {
     border-bottom: none;
+    border: none;
 }
 
 .gist .gist-meta {
