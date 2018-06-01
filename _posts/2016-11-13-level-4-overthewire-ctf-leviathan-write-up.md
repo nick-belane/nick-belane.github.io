@@ -17,7 +17,8 @@ Depois do level3 e seu nível de desafio não muito impressionante, cheguei no 4
 
 Primeira coisa a se fazer, após ter logado no ssh, foi listar os arquivos do meu diretório home:
 
-```leviathan4@melinda:~$ ls -alh
+```
+leviathan4@melinda:~$ ls -alh
 total 24K
 drwxr-xr-x   3 root root       4.0K Nov 14  2014 .
 drwxr-xr-x 172 root root       4.0K Jul 10 14:12 ..
