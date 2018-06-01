@@ -19,20 +19,14 @@ categories: [CTFs]
 
 Sem papo-furado, deixe-me começar.
 
-```leviathan6@melinda:~$ ls
-leviathan6
-leviathan6@melinda:~$ file leviathan6
-leviathan6: setuid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=477bdc2883903e1a94b335e173c9149bc2755ab8, not stripped
-
-leviathan6@melinda:~$ ./leviathan6
-usage: ./leviathan6 4 digit code
-```
+<script src="https://gist.github.com/nick-belane/9ee6aed79c36882f263095fe5b538995.js"></script>
 
 Nada demais. Como sempre, um executável suid para ser explorado. Dessa vez, parecida com outras vezes, ele pede uma senha de 4 dígitos.
 
 4 dígitos como argumento, ok.
 
-```leviathan6@melinda:~$ ./leviathan6 1234
+```
+leviathan6@melinda:~$ ./leviathan6 1234
 $ cat /etc/leviathan_pass/leviathan7
 ZW1pbmVt
 ```
@@ -41,7 +35,8 @@ E assim, acidentalmente, consegui a flag.
 
 Zoeira. Claro que não foi tão fácil. O resultado da execução acima na realidade foi esse:
 
-```leviathan6@melinda:~$ ./leviathan6 1234
+```
+leviathan6@melinda:~$ ./leviathan6 1234
 Wrong
 ```
 
@@ -50,7 +45,8 @@ Direto e reto.
 Suponho que o conjunto de quatro dígitos corretos seja minha senha para a leitura do password do próximo nível. Mas como descobri-lo?
 Usei o <em>ltrace</em> para tentar ver se o programa usava strcmp para comparar o que eu inseria com os digitos corretos. Mesmo sabendo que já tinha resolvido dois challs (ou mais, agora não lembro exatamente) com esse truque, não custava nada tentar.
 
-```leviathan6@melinda:~$ ltrace ./leviathan6 1234
+```
+leviathan6@melinda:~$ ltrace ./leviathan6 1234
 __libc_start_main(0x804850d, 2, 0xffffd794, 0x8048590 unfinished ...&amp;gt;
 atoi(0xffffd8c7, 0xffffd794, 0xffffd7a0, 0xf7e5619d) = 1234
 puts(WrongWrong
@@ -61,43 +57,7 @@ puts(WrongWrong
 É, não deu em nada. Ele provavelmente usa um simples <a href="http://www.inf.pucrs.br/flash/cbp/selecao_if.html"><em>if/else</em></a> e nesses casos ltrace não é tão útil.
 O que fazer, o que fazer... Lembrei bem que na descrição do ctf dizia que não seriam precisos conhecimentos em programação para resolver os challs, então eu não deveria ter que abrir o gdb e tentar ler assembly. Mas foda-se.
 
-```leviathan6@melinda:~$ gdb -q leviathan6
-Reading symbols from leviathan6...(no debugging symbols found)...done.
-(gdb) disas main
-Dump of assembler code for function main:
-0x0804850d +0: push %ebp
-0x0804850e +1: mov %esp,%ebp
-0x08048510 +3: and $0xfffffff0,%esp
-0x08048513 +6: sub $0x20,%esp
-0x08048516 +9: movl $0x1bd3,0x1c(%esp)
-0x0804851e +17: cmpl $0x2,0x8(%ebp)
-0x08048522 +21: je 0x8048545 main+56
-0x08048524 +23: mov 0xc(%ebp),%eax
-0x08048527 +26: mov (%eax),%eax
-0x08048529 +28: mov %eax,0x4(%esp)
-0x0804852d +32: movl $0x8048620,(%esp)
-0x08048534 +39: call 0x8048390 printf@plt
-0x08048539 +44: movl $0xffffffff,(%esp)
-0x08048540 +51: call 0x80483e0 exit@plt
-0x08048545 +56: mov 0xc(%ebp),%eax
-0x08048548 +59: add $0x4,%eax
-0x0804854b +62: mov (%eax),%eax
-0x0804854d +64: mov %eax,(%esp)
-0x08048550 +67: call 0x8048400 atoi@plt
-0x08048555 +72: cmp 0x1c(%esp),%eax
-0x08048559 +76: jne 0x8048575 main+104
-0x0804855b +78: movl $0x3ef,(%esp)
-0x08048562 +85: call 0x80483a0 seteuid@plt
-0x08048567 +90: movl $0x804863a,(%esp)
-0x0804856e +97: call 0x80483c0 system@plt
-0x08048573 +102: jmp 0x8048581 main+116
-0x08048575 +104: movl $0x8048642,(%esp)
-0x0804857c +111: call 0x80483b0 puts@plt
-0x08048581 +116: leave
-0x08048582 +117: ret
-End of assembler dump.
-(gdb) 
-```
+<script src="https://gist.github.com/nick-belane/6c46caa5723e2464c17783873ccd4d12.js"></script>
 
 O comando <em>disas main </em>(<em>disas</em> é a versão curta de <em>disassemble</em>) faz exatamente o que você vê. Mostra o código asm referente a função <em>main</em> (que é a função principal de um programa escrito em C e outras linguagem também, mas não vamos viajar agora falando sobre isso).
 
@@ -135,7 +95,8 @@ Breakpoint 1 at 0x8048555
 
 Hora de rodar o programa.
 
-```(gdb) run 1234
+```
+(gdb) run 1234
 Starting program: /home/leviathan6/leviathan6 1234
 
 Breakpoint 1, 0x08048555 in main ()
@@ -143,19 +104,22 @@ Breakpoint 1, 0x08048555 in main ()
 
 Programa parado, hora de <a href="https://sourceware.org/gdb/onlinedocs/gdb/Registers.html">analisar</a> o que há em ESP+0x1c e EAX.
 
-```(gdb) print $eax
+```
+(gdb) print $eax
 $1 = 1234
 ```
 
 Exatamente como suspeitei. EAX está guardando o valor que passei. <a href="http://www.delorie.com/gnu/docs/gdb/gdb_56.html">Agora era só pegar</a> o outro valor da comparação e se saberia quais são os dígitos corretos.
 
-```(gdb) x/u $esp+0x1c
+```
+(gdb) x/u $esp+0x1c
 0xffffd59c: 7123
 ```
 
 Será?
 
-```(gdb) quit
+```
+(gdb) quit
 A debugging session is active.
 
 Inferior 1 [process 15136] will be killed.
@@ -174,19 +138,7 @@ YmxhYmxhYmxh
 
 Assim que consegui o pass do leviathan7, corri para logar no que achava ser o último nível. Pós login, fui procurar um chall e encontrei isso aqui:
 
-```leviathan7@melinda:~$ ls -alh
-total 24K
-drwxr-xr-x 2 root root 4.0K Nov 14 2014 .
-drwxr-xr-x 172 root root 4.0K Jul 10 14:12 ..
--rw-r--r-- 1 root root 220 Apr 9 2014 .bash_logout
--rw-r--r-- 1 root root 3.6K Apr 9 2014 .bashrc
--rw-r--r-- 1 root root 675 Apr 9 2014 .profile
--r--r----- 1 leviathan7 leviathan7 178 Nov 14 2014 CONGRATULATIONS
-leviathan7@melinda:~$ cat CONGRATULATIONS
-Well Done, you seem to have used a *nix system before, now try something more serious.
-(Please don't post writeups, solutions or spoilers about the games on the web. Thank you!)
-leviathan7@melinda:~$
-```
+<script src="https://gist.github.com/nick-belane/1606cacaa62ab1d6211bc5a163447e95.js"></script>
 
 Sorry about the writeups :( Tô tentando compartilhar um conhecimento com outros humanos aleatórios (ou outras possívels formas de vida, vai saber) que trombarem com o que escrevo pelas webs.
 
