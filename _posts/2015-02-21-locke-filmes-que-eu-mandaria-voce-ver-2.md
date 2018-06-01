@@ -4,8 +4,9 @@ title: Locke (Filmes que eu mandaria você ver #2)
 date: 2015-02-21 20:49
 author: brennords
 comments: true
-categories: [Filmes, Indicações, Locke, Reflexão]
+categories: [Rant]
 ---
+
 "<em>Ivan Locke, um dedicado homem de família e bem sucedido diretor de obras, recebe um telefonema na véspera do maior desafio de sua carreira que desencadeia uma série de eventos que ameaçam sua cuidadosamente cultivada existência</em>."
 
 E com esse tipo de sinopse misteriosa que sempre me atrai, <a href="http://www.imdb.com/title/tt2692904/" target="_blank">Locke</a> é apresentado.
