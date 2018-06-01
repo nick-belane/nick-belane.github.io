@@ -11,7 +11,7 @@ Entre umas hackinages e outras e as idas e vindas de uma vida ordinária, costum
 Graças a essa "mania" que já tive muitas certezas, mudei praticamente todas elas e hoje em dia continuo pensando e mudando e aprendendo que sei cada vez menos e que quanto mais certeza eu tinha, menos sabia.
 
 <blockquote class="twitter-tweet">
-<p dir="ltr" lang="en">Welcome to philosophy. Everything you know is wrong and so is everything everyone else knows.
+Welcome to philosophy. Everything you know is wrong and so is everything everyone else knows.
 Basically the human species are a bunch of stupid idiots.
 
 — Existential Comics (@existentialcoms) <a href="https://twitter.com/existentialcoms/status/939939172713820161?ref_src=twsrc%5Etfw">10 de dezembro de 2017</a></blockquote>
