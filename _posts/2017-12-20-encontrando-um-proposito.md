@@ -10,11 +10,10 @@ Entre umas hackinages e outras e as idas e vindas de uma vida ordinária, costum
 
 Graças a essa "mania" que já tive muitas certezas, mudei praticamente todas elas e hoje em dia continuo pensando e mudando e aprendendo que sei cada vez menos e que quanto mais certeza eu tinha, menos sabia.
 
-<blockquote class="twitter-tweet">
 Welcome to philosophy. Everything you know is wrong and so is everything everyone else knows.
 Basically the human species are a bunch of stupid idiots.
 
-— Existential Comics (@existentialcoms) <a href="https://twitter.com/existentialcoms/status/939939172713820161?ref_src=twsrc%5Etfw">10 de dezembro de 2017</a></blockquote>
+— Existential Comics (@existentialcoms) <a href="https://twitter.com/existentialcoms/status/939939172713820161?ref_src=twsrc%5Etfw">10 de dezembro de 2017</a>
 
 Vagando pelas webs, encontrei, não lembro como, um link sobre uma carta escrita por <a href="https://pt.wikipedia.org/wiki/Hunter_S._Thompson" target="_blank" rel="noopener">Hunter S. Thompson</a>, um dos meus escritores preferidos, para um amigo. Ele escreveu essa carta como resposta após um pedido de conselho. Pretendia fazer uma tradução livre da versão que encontrei em <a href="http://tranquilmonkey.com/hunter-s-thompsons-extraordinary-letter-on-finding-your-purpose/" target="_blank" rel="noopener">inglês</a>, mas sou preguiçoso demais para refazer o trabalho que alguém já fez quando <a href="http://revista.usereserva.com/2016/01/05/decida-como-voce-quer-viver/" target="_blank" rel="noopener">transcreveu a carta direto de um livro contendo correspondências interessantes de seres famosos</a>.
 
@@ -24,7 +23,6 @@ A visão do Thompson é bem interessante e se destaca por não ser mais uma <a h
 
 Sem mais viagens, segue a carta:
 
-<blockquote>
 22 de abril de 1958
 Perry Street, 57
 Nova York, NY
@@ -50,6 +48,5 @@ Se alguma parte não faz sentido, diga-me, por favor. Não estou querendo mandar
 E é só isso por ora. Até receber notícias suas, continuo sendo
 seu amigo…
 Hunter
-</blockquote>
 
 
