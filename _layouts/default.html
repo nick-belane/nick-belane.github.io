@@ -18,18 +18,6 @@
             : {{ page.author }}
          </div>
          {% endif %}
-         {% if post %}
-            {% assign categories = post.categories %}
-         {% else %}
-            {% assign categories = page.categories %}
-         {% endif %}
-         <div class="opt-bottom">
-            <strong>Categoria</strong>
-            : {% for category in categories %} 
-               <a href="{{site.baseurl}}/categories/#{{category|slugize}}">{{category}}</a>
-            {% endfor %}
-         </div>
-         {% endif %}
          {% if page.date %}
          <div class="opt-bottom">
             <strong>Data</strong>
