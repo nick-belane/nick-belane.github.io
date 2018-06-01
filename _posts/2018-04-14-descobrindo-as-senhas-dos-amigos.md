@@ -22,7 +22,7 @@ Quando se tem acesso a esses vazamentos, a primeira coisa que eu, ou outra pesso
 
 Para os meus testes, peguei o arquivo da minha agenda e escrevi um script para extrair apenas os endereços de emails:
 
-https://gist.github.com/brerodrigues/395c25ae2f11287914b138b981ffed50
+<script src="https://gist.github.com/brerodrigues/395c25ae2f11287914b138b981ffed50.js"></script>
 
 Rápido e eficiente:
 
@@ -34,7 +34,7 @@ Existe um site chamado h<a href="https://haveibeenpwned.com/" target="_blank" r
 
 O script responsável por isso não foi de minha autoria. Fiz algumas modificações que julguei necessárias mas mantive os créditos.
 
-https://gist.github.com/brerodrigues/92ffcb8a25b55bc78d5176cbd11d4671
+<script src="https://gist.github.com/brerodrigues/92ffcb8a25b55bc78d5176cbd11d4671.js"></script>
 
 Funciona perfeitamente:
 
@@ -44,7 +44,7 @@ Ok, mas saber quem teve sua credencial vazada não é útil para nossos fins. Ú
 
 Então, criei um script que usa o módulo haveibeenpwned para checar se o email já foi associado a algum leak. Caso tenha sido, chama-se o script <em>query.sh</em> para buscar a credencial no dump.
 
-https://gist.github.com/brerodrigues/5363502ed49e4febcf5fbc5942d739f5
+<script src="https://gist.github.com/brerodrigues/5363502ed49e4febcf5fbc5942d739f5.js"></script>
 
 Agora com tudo automatizado, foi só mandar rodar e assistir.
 
@@ -57,5 +57,3 @@ E algumas senhas já começaram a surgir.
 <img class="alignnone size-full wp-image-1591" src="https://brenn0.files.wordpress.com/2018/04/ba8d0093372ff3cd554d232553a7c1f8.jpg" alt="ba8d0093372ff3cd554d232553a7c1f8" width="850" height="400" />
 
 Agora saia daqui e vá testar com os emails dos seus amigos! Só nunca acesse algo que não tenha a explicita autorização para isso.
-
-
