@@ -4,8 +4,9 @@ title: A constituição Hacker (Tradução)
 date: 2014-04-29 23:00
 author: brennords
 comments: true
-categories: [Hacker, Hacking, Rant, Revista 2600, Tradução]
+categories: [Hacking]
 ---
+
 Ultimamente venho lendo o livro <a href="http://www.amazon.com/The-Best-2600-Hacker-Odyssey/dp/0470294191" target="_blank">The Best of 2600 [A Hacker odyssey]</a> e encontrei um texto na categoria "A filosofia Hacker (The Hacker philosophy)" que achei interessante.
 
 <a href="http://brenn0.files.wordpress.com/2014/04/6a0120a85dcdae970b012877707f0d970c-pi.jpg"><img class="size-full wp-image-890" src="http://brenn0.files.wordpress.com/2014/04/6a0120a85dcdae970b012877707f0d970c-pi.jpg" alt="Capa do livro" width="380" height="500" /></a>
