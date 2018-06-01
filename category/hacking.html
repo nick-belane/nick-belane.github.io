@@ -5,5 +5,5 @@ category: Hacking
 ---
 
 {% for post in site.categories.Hacking %}
-<li><a href="{{ site.url }}{{ post.url }}">{{ post.title }} <time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%B %d, %Y" }}</time></a></li>
+<li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></li>
 {% endfor %}
