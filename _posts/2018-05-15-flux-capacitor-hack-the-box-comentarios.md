@@ -78,7 +78,8 @@ Mas por qual razão?
 
 A coisa mais óbvia que pensei foi o User-Agent. Para comprovar minha tese, foi só usar o próprio curl com o parametro -A e setar o User-Agent do Firefox:
 
-```brenno@budweiser ~curl -A "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0" -v http://10.10.10.69/sync
+```
+brenno@budweiser ~curl -A "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0" -v http://10.10.10.69/sync
 * Trying 10.10.10.69...
 * Connected to 10.10.10.69 (10.10.10.69) port 80 (#0)
 GET /sync HTTP/1.1
@@ -93,18 +94,16 @@ Content-Length: 175
 Connection: keep-alive
 
 
-403 Forbidden</pre>
-<h1>403 Forbidden
+403 Forbidden
+403 Forbidden
 
-<hr />
-
-<pre>openresty/1.13.6.1
-
+openresty/1.13.6.1
 ```
 
 E agora com um user-agent qualquer:
 
-```brenno@budweiser ~curl -A "ai dento" -v http://10.10.10.69/sync
+```
+brenno@budweiser ~curl -A "ai dento" -v http://10.10.10.69/sync
 * Trying 10.10.10.69...
 * Connected to 10.10.10.69 (10.10.10.69) port 80 (#0)
 GET /sync HTTP/1.1
