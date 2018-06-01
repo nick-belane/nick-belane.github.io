@@ -10,20 +10,7 @@
         <div align="center" class="texto-2-bold">
             {% for item in site.data.main-menu.itens %}
                 [ <a href="{{ item.url }}" class="menu-link" title="{{ item.url }}">{{ item.title }}</a> ]
-            {% endfor %}
-            
-            {% assign categories_list = site.categories %}
-              {% if categories_list.first[0] == null %}
-                {% for category in categories_list %}
-                        [ <a href="{{ category }}" class="menu-link" title="{{ category }}">{{ category }}</a> ]
-                {% endfor %}
-              {% else %}
-                {% for category in categories_list %}
-                  [ <a href="{{ category }}" class="menu-link" title="{{ category }}">{{ category }}</a> ]
-                {% endfor %}
-              {% endif %}
-            {% assign categories_list = nil %}
-            
+            {% endfor %}            
         </div>
             <img class="img-logo" width="600" src="{{ site.baseurl | absolute_url}}/assets/img/{{ site.data.config.img-logo }}" alt="..[]..">
         <div class="p-title">.:: {{ site.data.config.site-name }} ::.</div>
