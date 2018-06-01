@@ -20,35 +20,7 @@ Agora deixe-me contar até onde cheguei e o que aprendi ao descobrir onde falhei
 
 Como de costume, comecei com um scan padrão do nmap: <em>nmap -v -A 10.10.10.69</em>
 
-```
-Starting Nmap 7.01 ( https://nmap.org ) at 2018-05-12 22:17 EDT
-NSE: Loaded 132 scripts for scanning.
-NSE: Script Pre-scanning.
-Initiating NSE at 22:17
-Completed NSE at 22:17, 0.00s elapsed
-Initiating NSE at 22:17
-Completed NSE at 22:17, 0.00s elapsed
-Initiating Ping Scan at 22:17
-Scanning 10.10.10.69 [2 ports]
-Completed Ping Scan at 22:17, 0.24s elapsed (1 total hosts)
-Initiating Connect Scan at 22:17
-Scanning node1.fluxcapacitor.htb (10.10.10.69) [1000 ports]
-Discovered open port 80/tcp on 10.10.10.69
-NSE: Script scanning 10.10.10.69.
-Initiating NSE at 22:18
-Completed NSE at 22:18, 5.82s elapsed
-Initiating NSE at 22:18
-Completed NSE at 22:18, 0.00s elapsed
-Nmap scan report for node1.fluxcapacitor.htb (10.10.10.69)
-Host is up (0.23s latency).
-Not shown: 999 closed ports
-PORT STATE SERVICE VERSION
-80/tcp open http SuperWAF
-| http-methods:
-|_ Supported Methods: GET HEAD
-|_http-server-header: SuperWAF
-|_http-title: Keep Alive
-```
+<script src="https://gist.github.com/nick-belane/da3b715848a58336a83ed7159b4fb084.js"></script>
 
 Nada demais além da porta 80 e seu servidor web. Hora de checar o que era oferecido via HTTP:
 
