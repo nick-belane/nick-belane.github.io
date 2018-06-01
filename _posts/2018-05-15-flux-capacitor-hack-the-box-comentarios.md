@@ -20,7 +20,8 @@ Agora deixe-me contar até onde cheguei e o que aprendi ao descobrir onde falhei
 
 Como de costume, comecei com um scan padrão do nmap: <em>nmap -v -A 10.10.10.69</em>
 
-```Starting Nmap 7.01 ( https://nmap.org ) at 2018-05-12 22:17 EDT
+{% highlight ruby %}
+Starting Nmap 7.01 ( https://nmap.org ) at 2018-05-12 22:17 EDT
 NSE: Loaded 132 scripts for scanning.
 NSE: Script Pre-scanning.
 Initiating NSE at 22:17
@@ -47,8 +48,7 @@ PORT STATE SERVICE VERSION
 |_ Supported Methods: GET HEAD
 |_http-server-header: SuperWAF
 |_http-title: Keep Alive
-
-```
+{% endhighlight %}
 
 Nada demais além da porta 80 e seu servidor web. Hora de checar o que era oferecido via HTTP:
 
