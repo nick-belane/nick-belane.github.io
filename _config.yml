@@ -1,1 +1,2 @@
 name: Blog Pessoal
+permalink: /:categories/:title
