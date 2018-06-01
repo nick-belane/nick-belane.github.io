@@ -168,6 +168,15 @@ hr {
     display: none;
 }
 
+.gist-file {
+    border: none;
+    border-bottom: none;
+}
+
+.gist-data {
+    border-bottom: none;
+}
+
 /* .footer {
   position: relative;
   right: 0;
