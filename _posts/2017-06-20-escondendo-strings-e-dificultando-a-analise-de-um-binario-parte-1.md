@@ -14,14 +14,13 @@ Meu objetivo inicial foi criar um leve binário no linux que recebesse uma senha
 
 O primeiro código que escrevi foi esse:
 
-https://gist.github.com/anonymous/57a15666d500b7185809063c27bdf075
+<script src="https://gist.github.com/anonymous/57a15666d500b7185809063c27bdf075.js"></script>
 
 Bem simples, não?
 
 Ao compilar e rodar, tudo funcionou como deveria:
 
 ```
-
 brenno@budweiser:~/Docs/ctf/brenn0$ gcc chall_versao0.c -o chall_versao0
 brenno@budweiser:~/Docs/ctf/brenn0$ ./chall_versao0
 Uso: ./chall_versao0 [senha]
@@ -31,7 +30,6 @@ brenno@budweiser:~/Docs/ctf/brenn0$ ./chall_versao0 bbb
 Sai daqui, porra!
 brenno@budweiser:~/Docs/ctf/brenn0$ ./chall_versao0 666
 Tome sua flag: CTF{UAL}
-
 ```
 
 A intenção aqui é fazer com que o ser faça a engenharia reversa do binário, abra o gdb, sete uns breakpoints, descubra o valor da senha ou até simplesmente faça um jmp safado e imprima a flag na tela.
@@ -39,7 +37,6 @@ A intenção aqui é fazer com que o ser faça a engenharia reversa do binário,
 Mas sabemos como esses hackudos são. Imaginei que a primeira coisa que fariam seria usar o comando <a href="http://www.linfo.org/strings.html">strings</a> em cima do meu binário na busca de uma flag fácil.
 
 ```
-
 brenno@budweiser:~/Docs/ctf/brenn0$ strings chall_versao0
 /lib64/ld-linux-x86-64.so.2
 libc.so.6
@@ -66,7 +63,6 @@ __JCR_LIST__
 deregister_tm_clones
 __do_global_dtors_aux
 [...]
-
 ```
 
 E a flag está mesmo disponível de forma fácil. Os que são ainda mais hackers poderiam, caso conhecessem o formato da flag, fazer apenas:
@@ -80,12 +76,11 @@ Não escrevi 24 linhas de código para ver meu chall resolvido em 2 segundos. Is
 
 Após algumas pesquisas, descobri que o comando string, usado cru, sem opcionais, busca no binário apenas strings maiores que 3. Ou seja, modificando meu código atual para partir a flag em pedaços poderia esconde-la melhor.
 
-https://gist.github.com/anonymous/5e0a3681c139d41da8bb925da98a5b42
+<script src="https://gist.github.com/anonymous/5e0a3681c139d41da8bb925da98a5b42.js"></script>
 
 Agora ao compilar e passar o strings o resultado era esse:
 
 ```
-
 brenno@budweiser:~/Docs/ctf/brenn0$ gcc chall_versao1.c -o chall_versao1
 brenno@budweiser:~/Docs/ctf/brenn0$ strings chall_versao1
 [...]
@@ -102,7 +97,6 @@ crtstuff.c
 __JCR_LIST__
 deregister_tm_clones
 [...]
-
 ```
 
 Sem flag via strings!
@@ -156,7 +150,7 @@ Claro que poderia partir a flag caracter por caracter, mas decidi inserir outros
 
 O código ficou assim:
 
-https://gist.github.com/anonymous/1bb687ad83ff39a7449ffb854753ae10
+<script src="https://gist.github.com/anonymous/1bb687ad83ff39a7449ffb854753ae10.js"></script>
 
 Ao compilar e tentar pescar algo com strings -n2 teremos:
 
