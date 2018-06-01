@@ -29,7 +29,8 @@ dr-xr-x---   2 root leviathan4 4.0K Nov 14  2014 .trash
 
 E na pasta .trash se encontra o executável alvo chamado <strong>bin</strong>.
 
-```leviathan4@melinda:~$ ls -alh .trash/
+```
+leviathan4@melinda:~$ ls -alh .trash/
 total 16K
 dr-xr-x--- 2 root       leviathan4 4.0K Nov 14  2014 .
 drwxr-xr-x 3 root       root       4.0K Nov 14  2014 ..
@@ -38,17 +39,20 @@ drwxr-xr-x 3 root       root       4.0K Nov 14  2014 ..
 
 Tanto o nome quanto a execução do arquivo bin são bem indicativos do que ele faz.
 
-```leviathan4@melinda:~$ ./.trash/bin
+```
+leviathan4@melinda:~$ ./.trash/bin
 01010100 01101001 01110100 01101000 00110100 01100011 01101111 01101011 01100101 01101001 00001010
 ```
 
 Seria só isso? Ele me dá a flag em binário? Assim de graça?
 Só por pura desconfiança, o executei com o <em>ltrace</em> para sacar o que rolava.
 
-```leviathan4@melinda:~$ ltrace ./.trash/bin
+```
+leviathan4@melinda:~$ ltrace ./.trash/bin
 __libc_start_main(0x80484cd, 1, 0xffffd784, 0x80485c0 unfinished ...&amp;gt;
 fopen(/etc/leviathan_pass/leviathan5, r)     = 0
-+++ exited (status 255) +++```
++++ exited (status 255) +++
+```
 
 Mais claro e simples do que isso não dá pra ficar.
 Agora foi só usar esse <a href="http://string-functions.com/binary-string.aspx">site</a>, converter os bin para str e ganhar a senha do próximo nível.
