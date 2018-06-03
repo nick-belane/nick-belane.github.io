@@ -8,19 +8,19 @@
       <div style="border-top: 1px solid black; border-bottom: 2px solid black">
          {% if page.title %}
          <div class="opt" id="article">
-            <strong>Título</strong>
+            <strong>Title</strong>
             : {{ page.title }}
          </div>
          {% endif %}
          {% if page.author %}
          <div class="opt-bottom">
-            <strong>Autor</strong>
+            <strong>Author</strong>
             : {{ page.author }}
          </div>
          {% endif %}
          {% if page.date %}
          <div class="opt-bottom">
-            <strong>Data</strong>
+            <strong>Date</strong>
             : {{ page.date | date: "%d/%m/%Y" }}
          </div>
          {% endif %}
